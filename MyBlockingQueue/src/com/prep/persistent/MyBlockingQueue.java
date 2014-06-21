@@ -12,7 +12,8 @@ import java.util.LinkedList;
  */
 public class MyBlockingQueue {
 
-	  private Queue queue = new LinkedList();
+	  @SuppressWarnings("rawtypes")
+	private Queue queue = new LinkedList();
 	  private int  limit = 5;
 
 	  /**
@@ -31,7 +32,8 @@ public class MyBlockingQueue {
 	   * @param item
 	   * @throws InterruptedException
 	   */
-	  public synchronized void put(Object item) throws InterruptedException  {
+	  @SuppressWarnings("unchecked")
+	public synchronized void put(Object item) throws InterruptedException  {
 	    while(isQueueCapped()) {
 	      wait();
 	    }
