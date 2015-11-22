@@ -34,4 +34,20 @@ public class AesCryptoUtils {
 		return decryptedText;
 	}
 	
+	public static String encrypt(String plainText, String key) {
+		byte[] plainTextByte = plainText.getBytes();
+		byte[] encryptedByte = null;
+		try {
+			cipher = Cipher.getInstance("AES");
+			SecretKey secretKey = new SecretKeySpec(key.getBytes(), "AES");
+			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+			encryptedByte = cipher.doFinal(plainTextByte);
+		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException| BadPaddingException e) {
+			e.printStackTrace();
+		}
+		Base64.Encoder encoder = Base64.getEncoder();
+		String encryptedText = encoder.encodeToString(encryptedByte);
+		return encryptedText;
+	}
+	
 }
