@@ -12,9 +12,19 @@ import org.apache.commons.codec.binary.Base64;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
-
+/**
+ * This class takes a file having an AES encrypted text as input  and attempts to 
+ * extract the actual file inside whose bytes first has been Base64 encoded
+ * and then AES encrypted using a key. This key has to be 16 bytes (16 characters long).
+ * After decrypting the  text it creates the resulting file in the path provided.
+ * <br><b>Please note, this class is not just an AES encrypted text to plain text 
+ * class. It has custom manipulation.</b>
+ * @author Sujit
+ *
+ */
 public class AesDecryptor {
     public static void main( String[] args ) {
+    	// Parameters and key values
     	String keyValue = "0234567891234567";
     	String base64EncodedTextFilePath = "C:\\Users\\Sujit\\Desktop\\test-enc.txt";
     	String outputFilePath = "C:\\Users\\Sujit\\Desktop\\decrypted.zip";
@@ -38,10 +48,19 @@ public class AesDecryptor {
 			e.printStackTrace();
 		}
     	System.out.println("|-- encrypted base64 text string fetch complete...attempting to decode...");
+    	/*
+    	 * This part expects the given encrypted string consists of chunked 76 character columns, which 
+    	 * is needed for transporting the huge Base64 encoded strings via transport mechanisms like email.
+    	 * So, after receiving such a chunked data, it first needs to be converted back into a single string before
+    	 * attempting AES decryption. 
+    	 */
     	String encryptedText = Joiner.on("").join(Splitter.on("\n").trimResults().split(encryptedTextChunked));
+    	// decrypting the data
     	String decryptedText = AesCryptoUtils.decrypt(encryptedText, keyValue);
+    	// decoding on Base64
     	byte[] decodedBuffer = Base64.decodeBase64(decryptedText);
     	System.out.println("|-- decoded....writing contents in zip file...");
+    	// writing the byte contents into the output file for reconstruction
     	try{
     		OutputStream oos = new FileOutputStream(outputFilePath);
     		oos.write(decodedBuffer);

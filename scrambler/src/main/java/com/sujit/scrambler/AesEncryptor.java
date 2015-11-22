@@ -15,7 +15,8 @@ import com.google.common.base.Splitter;
 /**
  * This class takes a file as an input, first converts its bytes into a Base64 string and
  * then encrypts the Base64 encoded string using AES encryption standard and a 
- * given key. This key has to be 16 bytes (16 characters long). 
+ * given key. This key has to be 16 bytes (16 characters long). After encrypting
+ * it writes the chunked string into a file as provided.
  * <br><b>Please note, this class is not just a plain text to AES encrypted 
  * text class. It has custom manipulation.</b>
  * @author Sujit
@@ -24,7 +25,7 @@ import com.google.common.base.Splitter;
 public class AesEncryptor {
 
 	public static void main(String[] args) {
-		// Filepath and variable declarations
+		// Parameters and key values
 		String inputFilePath = "";
 		String encryptedOutputFilePath = "";
 		String keyValue = "";
