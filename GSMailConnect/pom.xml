@@ -17,7 +17,12 @@
   <!-- Please note this project also uses one dependency which is not via maven as the GS dev infra did not allow me to put the jar in maven repo here.
   The jar is "ews-java-api-2.0-20150626.105058-39.jar". But outside GS you can use maven repo as mentioned at 'https://github.com/OfficeDev/ews-java-api/wiki/Getting-Started-Guide#maven' -->
   <dependencies>
-   <dependency>
+  	<dependency>
+	    <groupId>com.microsoft.ews-java-api</groupId>
+	    <artifactId>ews-java-api</artifactId>
+	    <version>2.0</version>
+	</dependency>
+    <dependency>
    		<!-- This is a custom GS Java Authentication api for kerberos based SSO (a loosely implemented SSO anyway). It is used to call any GS internal app which needs authentication. -->
 		<groupId>com.gs.ti.aimm.seceng</groupId>
 		<artifactId>gsauthnj-core</artifactId>
