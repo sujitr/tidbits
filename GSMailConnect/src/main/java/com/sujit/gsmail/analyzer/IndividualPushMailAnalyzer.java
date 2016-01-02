@@ -10,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is to analyze if an email is requesting to create a new periodic build.
+ * This class is to analyze if an email is requesting for an Individual Push. This class
+ * searches for the patterns which exposes as a request for push to some GS 
+ * internal host.
  * 
  */
 public class IndividualPushMailAnalyzer {
