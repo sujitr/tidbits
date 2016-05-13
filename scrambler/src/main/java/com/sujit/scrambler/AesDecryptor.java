@@ -31,16 +31,12 @@ public class AesDecryptor {
     	String encryptedTextChunked = null;
     	File xFile = new File(base64EncodedTextFilePath);
     	System.out.println("|-- reading the encrypted base64 encoded text in the text file specified...");
-    	try {
-			FileReader fr = new FileReader(xFile);
-			BufferedReader br = new BufferedReader(fr);
+    	try(BufferedReader br = new BufferedReader(new FileReader(xFile))) {
 			StringBuilder sb = new StringBuilder();
 			String s;
 			while((s = br.readLine()) != null) {
 				sb.append(s);
 			}
-			fr.close(); 
-			br.close();
 			encryptedTextChunked = sb.toString();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -59,12 +55,10 @@ public class AesDecryptor {
     	String decryptedText = AesCryptoUtils.decrypt(encryptedText, keyValue);
     	// decoding on Base64
     	byte[] decodedBuffer = Base64.decodeBase64(decryptedText);
-    	System.out.println("|-- decoded....writing contents in zip file...");
+    	System.out.println("|-- decoded....writing contents in output file...");
     	// writing the byte contents into the output file for reconstruction
-    	try{
-    		OutputStream oos = new FileOutputStream(outputFilePath);
+    	try(OutputStream oos = new FileOutputStream(outputFilePath)){
     		oos.write(decodedBuffer);
-    		oos.close();
     	}catch(FileNotFoundException fex){
     		fex.printStackTrace();
     	} catch (IOException e) {

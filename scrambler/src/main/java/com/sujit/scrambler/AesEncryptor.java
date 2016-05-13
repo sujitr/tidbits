@@ -34,22 +34,12 @@ public class AesEncryptor {
 		
 		//reading the file into the byte array
 		File zfile = new File(inputFilePath);
-		InputStream ios = null;
 		byte[] buffer = null;
-		try{
-			ios = new FileInputStream(zfile);
+		try(InputStream ios = new FileInputStream(zfile)) {
 			buffer = IOUtils.toByteArray(ios);
 		}catch(IOException ex){
 			ex.printStackTrace();
-		} finally {
-			try{
-				if(ios!=null){
-					ios.close();
-				}
-			}catch(IOException e){
-				e.printStackTrace();
-			}
-		}
+		} 
 		// convert the read byte array from file to a Base64 encoded string
 		base64String = Base64.encodeBase64String(buffer);
 		// encrypt that Base64 encoded string using AES
@@ -62,10 +52,8 @@ public class AesEncryptor {
 		 */
 		String chunkedData = Joiner.on("\n").join(Splitter.fixedLength(76).split(encryptedBase64EncodedText));
 		// write the encrypted data into a file
-		try{
-			FileWriter fw = new FileWriter(new File(encryptedOutputFilePath));
+		try(FileWriter fw = new FileWriter(new File(encryptedOutputFilePath))){
 			fw.write(chunkedData);
-			fw.close();
 		}catch(IOException e){
 			e.printStackTrace();
 		}
