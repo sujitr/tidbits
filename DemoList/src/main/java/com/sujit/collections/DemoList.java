@@ -8,7 +8,7 @@ import java.util.Arrays;
  * <ol>
  * 	<li>List may grow from zero to infinite size</li>
  * 	<li>List will  be initialized with minimum 10 elements at the time of creation
- * 	<li> List will provide methods for fetching, adding, removing and printing the list at any state in its life-cycle
+ * 	<li>List will provide methods for fetching, adding, removing and printing the list at any state in its life-cycle
  * </ol>
  * @author Sujit
  *
