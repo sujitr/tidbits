@@ -2,7 +2,7 @@ package com.sujit.soundsystem;
 
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class Adele21 implements CompactDisc {
 	
 	private String title = "Rolling in the deep";
