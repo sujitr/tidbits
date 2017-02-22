@@ -1,38 +1,60 @@
 package com.sujit;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
+import java.util.List;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.classic.Session;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("/testContext.xml")
+@Transactional
+public class AppTest {
+
+    @Autowired
+    private SessionFactory sessionFactory;
+    private Session currentSession;
+
+    @Before
+    public void openSession() {
+        currentSession = sessionFactory.getCurrentSession();
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    @Test
+    public void shouldHaveASessionFactory() {
+        assertNotNull(sessionFactory);
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+    @Test
+    public void shouldHaveNoObjectsAtStart() {
+        List<?> results = currentSession.createQuery("from App").list();
+        assertTrue(results.isEmpty());
+    }
+
+    @Test
+    public void shouldBeAbleToPersistAnObject() {
+        assertEquals(0, currentSession.createQuery("from App").list().size());
+        App jobUser = new App("Bar");
+        currentSession.persist(jobUser);
+        currentSession.flush();
+        assertEquals(1, currentSession.createQuery("from App").list().size());
+    }
+
+    @Test
+    public void shouldBeABleToQueryForObjects() {
+        shouldBeAbleToPersistAnObject();
+
+        assertEquals(1, currentSession.createQuery("from App where name = 'Bar'").list().size());
+        assertEquals(0, currentSession.createQuery("from App where name = 'Baz'").list().size());
     }
 }
