@@ -1,3 +1,5 @@
+package com.sujit.memoizer;
+
 /**
  * Computable interface describes a function which takes an input
  * of type A and computes and returns a result of type V.
