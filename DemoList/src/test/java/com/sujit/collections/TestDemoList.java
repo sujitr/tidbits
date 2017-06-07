@@ -62,5 +62,22 @@ public class TestDemoList {
 		assertTrue(myList.size()==4);
 		assertTrue(myList.toString().equalsIgnoreCase("[1,2,3,5]"));
 	}
+	
+	@Test
+	public void testDemoListRemoveWithElements(){
+		DemoList<String> dl = new DemoList<String>();
+		dl.add("Manna");
+        dl.add("Kathy");
+        dl.add("Bocha");
+        dl.add("Maria");
+        dl.add("Jenna");
+        dl.add("Avril");
+        dl.add("Humphrey");
+        assertTrue(dl.remove("Avril"));
+        assertFalse(dl.remove("Aviici"));
+        assertTrue(dl.size()==6);
+        assertTrue(dl.toString().equalsIgnoreCase("[Manna,Kathy,Bocha,Maria,Jenna,Humphrey]"));
+        dl = null;
+	}
 
 }

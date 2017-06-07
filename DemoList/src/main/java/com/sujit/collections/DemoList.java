@@ -78,6 +78,33 @@ public class DemoList<T> {
 	}
 	
 	/**
+	 * Method to remove a given element from list. 
+	 * This method will remove the first occurrence of the given 
+	 * element (with least index value)
+	 * @param t - the element which needs to be removed
+	 * @return boolean true if operation succeeds
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean remove(T t){
+	    if(t == null){
+           for(int k = 0; k <= size ; k++){
+            if(elements[k] == null){
+                remove(k);
+                return true;
+            }
+        }
+       }else{
+           for(int k = 0; k <= size ; k++){
+            if(((T)elements[k]).equals(t)){
+              remove(k);
+              return true;
+            }
+        }
+       }
+       return false;
+	}
+	
+	/**
 	 * Method for printing the list at any state in its life-cycle
 	 */
 	public String toString()
