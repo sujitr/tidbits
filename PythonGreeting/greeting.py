@@ -1,6 +1,6 @@
 import requests
 from xml.dom import minidom
-from gtts import gTTS 
+from gtts import gTTS
 import os
 import math
 
