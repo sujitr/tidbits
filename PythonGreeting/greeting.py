@@ -39,6 +39,3 @@ tts = gTTS(text=forecast, lang='en')
 tts.save("weather.mp3")
 #os.system("C:\mpg123-1.23.8-x86-64\mpg123 weather.mp3")
 
-
-
-
