@@ -3,10 +3,20 @@ from xml.dom import minidom
 from gtts import gTTS
 import os
 import math
+import datetime
 
 url = "http://api.openweathermap.org/data/2.5/weather?id=1277333&appid=<OpenWeatherAPIKey>&mode=xml&units=metric"
+hour = datetime.datetime.now().time().hour
 
-print(url) 
+if hour < 12 :
+	os.system("mpg123 /home/sujit/Garage/production-media/morning.mp3")
+else:
+	if hour > 12 :
+		if hour > 16 :
+			os.system("mpg123 /home/sujit/Garage/production-media/evening.mp3")
+		else:
+			os.system("mpg123 /home/sujit/Garage/production-media/afternoon.mp3")
+
 
 response = requests.get(url)
 
@@ -36,6 +46,6 @@ forecast = "The current weather in " + weatherCity + " is " + weatherCondition +
 print(forecast)
 
 tts = gTTS(text=forecast, lang='en')
-tts.save("weather.mp3")
-#os.system("C:\mpg123-1.23.8-x86-64\mpg123 weather.mp3")
+tts.save("/home/sujit/Garage/weather.mp3")
+os.system("mpg123 /home/sujit/Garage/weather.mp3")
 
