@@ -41,7 +41,7 @@ else:
     modTemp = str(currTemp)
 
 
-forecast = "The current weather in " + weatherCity + " is " + weatherCondition + " and " + modTemp + " degrees. The temperature for the moment could range from a low of " + str(lowTemp) + " with a high of " + str(highTemp) + " degrees, with a humidity of " + str(humidity) + " percent."
+forecast = "The current weather in " + weatherCity + " is " + weatherCondition + " and " + modTemp + " degrees. The temperature for the moment could range from a low of " + str(lowTemp) + " to a high of " + str(highTemp) + " degrees, with a humidity of " + str(humidity) + " percent."
 
 print(forecast)
 
