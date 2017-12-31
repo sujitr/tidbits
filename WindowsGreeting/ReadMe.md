@@ -7,4 +7,4 @@ and speaks out the same too.
 
 ## Points of improvement - 
 1. Make the announcements more random in the way of addressing
-2. More definitive error handling scenarios when it comes to connecting the internet for weather api call
+2. ~~More definitive error handling scenarios when it comes to connecting the internet for weather api call~~
