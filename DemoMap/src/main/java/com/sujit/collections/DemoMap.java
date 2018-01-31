@@ -1,13 +1,16 @@
 package com.sujit.collections;
 
 /**
- * Map demostration class.
+ * Map demonstration class.
  * 
  * @author Sujit Roy
  */
 public class DemoMap<K,V> {
     
-    // first define a static inner class which will hold the key value mapping entries in a linkedlist node
+    /** 
+     * Static inner class which will hold the key value mapping entries in
+     * a linkedlist node
+     */
     static class Entry<K,V> {
         K key;
         V value;
@@ -20,15 +23,26 @@ public class DemoMap<K,V> {
         }
     }
     
+    /**
+     * The table holding the linked lists
+     */
     private Entry<K,V>[] mapArray;
-    private int capacity = 10;
+    
+    /**
+     * The default initial capacity. Could be any number for this demo example,
+     * but as per Java standards it MUST be a power of 2.
+     * 
+     * The reason behind choosing capacity as a power of 2 is the algorithmic
+     * advantage it provides in finding the bucket location from the hashcode.
+     */
+    static final int capacity = 16;
     
     public DemoMap(){
         mapArray = new Entry[capacity];
     }
     
     /**
-     * stores the provided key value mapping into the map.
+     * Stores provided key value mapping into the map.
      * if a key value mapping already exists then it replaces old value with the new value.
      * 
      * @param key
@@ -57,7 +71,7 @@ public class DemoMap<K,V> {
     }
     
    /**
-    * retrieves the value against a given key, if entry is available in the map.
+    * Retrieves the value against a given key, if entry is available in the map.
     * if the key value mapping is not available then it returns null.
     * @param key
     *           the key of the mapping to be retrieved
@@ -77,7 +91,7 @@ public class DemoMap<K,V> {
     }
     
     /**
-     * removes a key value mapping from the map if entry exists
+     * Removes a key value mapping from the map if entry exists
      * @param key
      *            the key of the mapping to be removed
      * @return value
@@ -106,7 +120,7 @@ public class DemoMap<K,V> {
     }
     
     /**
-     * displays the contents of the map. each key value entry in a new line
+     * Displays the contents of the map. each key value entry in a new line
      */
     public void display(){
         System.out.println("DemoMap contains below entries...");
@@ -138,14 +152,38 @@ public class DemoMap<K,V> {
         return size; 
     }
     
-    private final Entry<K,V> getEntry(K key){
-        // TO DO
+    /**
+     * Returns the entry associated with the specified key. Returns null if there exists no mapping
+     * for the key. 
+     * 
+     * This method is modeled on the actual implementation of HashMap in JDK.
+     * 
+     * @param key
+     *          the key of the mapping
+     * 
+     * @return Entry<K,V> if available for that key, else null
+     */
+    private Entry<K,V> getEntry(K key){
+        int hashBucket = getHash(key);
+        for(Entry<K,V> e = mapArray[hashBucket]; e != null; e = e.nextEntry){
+            Object k;
+            if((k = e.key) == key || (key!=null && key.equals(k)))
+                return e; 
+        }
         return null;
     }
     
+    /**
+     * Method to check if map contains a given key.
+     * This method keeps in mind that actual Map allows for one null key and many null values.
+     * 
+     * @param key
+     *          the key of the mapping
+     * 
+     * @return true if map contains entry for that key
+     */
     public boolean containsKey(K key){
-        // To DO
-        return false;
+        return getEntry(key) != null;
     }
     
     public boolean containsValue(K key){
@@ -160,9 +198,24 @@ public class DemoMap<K,V> {
      * 
      * For better understanding of Java default hashMap implementation please check - 
      * https://en.wikipedia.org/wiki/Java_hashCode()
+     * 
      */
     private int getHash(K key){
         int hash = key!=null?key.hashCode():0;
         return Math.abs(hash) % capacity;
+        
+        /*
+         * the return statement in this case can also be re-written as - 
+         * 
+         * return Math.abs(hash) & (capacity-1);
+         * 
+         * But, this works only when the capacity is a power of 2, which is mandated
+         * in the actual Java hashmap implementation.
+         * 
+         * Theoretically, when 'z' is a power of 2 then x % z == x & (z-1), because
+         * bit wise AND operator works that way.
+         * 
+         * For more details, refer - https://stackoverflow.com/questions/13784790/what-is-the-rationale-behind-x-64-x-63 
+         */
     }
 }
