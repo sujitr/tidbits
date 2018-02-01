@@ -186,9 +186,32 @@ public class DemoMap<K,V> {
         return getEntry(key) != null;
     }
     
-    public boolean containsValue(K key){
-        // TO DO
-        return false;
+    /**
+     * Method to check if map contains a given value for any keys
+     * 
+     * @param value
+     *          which need to checked for existence in the map
+     * 
+     * @return true if map contains that value against any key
+     */
+    public boolean containsValue(V value){
+       if(value==null){
+           for(int arrayIndex = 0; arrayIndex < capacity; arrayIndex++){
+                for(Entry<K,V> e = mapArray[arrayIndex]; e!=null; e = e.nextEntry){
+                    if(e.value == null)
+                        return true;
+                }               
+           }
+           
+       }else{
+           for(int arrayIndex = 0; arrayIndex < capacity; arrayIndex++){
+                for(Entry<K,V> e = mapArray[arrayIndex]; e!=null; e = e.nextEntry){
+                    if(e.value.equals(value))
+                        return true;
+                }               
+           }
+       }  
+       return false; 
     } 
     
     /**

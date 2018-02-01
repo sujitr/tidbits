@@ -48,4 +48,17 @@ public class DemoMapTest {
         assertTrue(dMap.containsKey(null));
     }
     
+    @Test
+    public void testValuePresence() {
+        DemoMap<Integer, Integer> dMap = new DemoMap<Integer, Integer>();
+        dMap.put(3, 67);
+        dMap.put(12, 4561);
+        dMap.put(34, 56);
+        dMap.put(34, 56);
+        dMap.put(78, 4178);
+        dMap.put(null, 2178);
+        assertTrue(dMap.containsValue(2178));
+        assertFalse(dMap.containsValue(45));
+    }
+    
 }
