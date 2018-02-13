@@ -10,6 +10,11 @@ import static org.junit.Assert.assertFalse;
 
 /**
  * Class to test the demo map.
+ * 
+ * Remember: JUnit always creates one instance of the test class for each @Test method. 
+ * This is a fundamental design decision to make it easier to write tests without side-effects. 
+ * Good tests do not have any order-of-run dependencies and creating fresh instances of the test 
+ * class and its instance variables for each test is crucial in achieving this.
  */
 public class DemoMapTest {
     
