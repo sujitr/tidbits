@@ -20,13 +20,14 @@ import com.google.common.base.Splitter;
  * This key has to be 16 bytes (16 characters long) for this class. This is a simple
  * implementation of the encryption (of AES) with only a plaintext password. This is not 
  * a very strong system in face of known dictionary attacks for guessing the password.
- * For normal use cases this might suffice, but use with discretion
+ * For normal use cases this might suffice, but use with discretion.
  * 
  * After encrypting it writes the chunked string into a file as provided.
  * <br><b>Please note, this class is not just a plain text to AES encrypted 
  * text class. It has custom manipulation.</b>
  * 
- * @author Sujit
+ * @author 
+ *      Sujit
  *
  */
 public class AesEncryptor {
