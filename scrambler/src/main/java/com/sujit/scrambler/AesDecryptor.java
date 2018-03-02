@@ -13,12 +13,18 @@ import org.apache.commons.codec.binary.Base64;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 /**
- * This class takes a file having an AES encrypted text as input  and attempts to 
- * extract the actual file inside whose bytes first has been Base64 encoded
- * and then AES encrypted using a key. This key has to be 16 bytes (16 characters long).
- * After decrypting the  text it creates the resulting file in the path provided.
+ * This class takes a file containing AES encrypted text as input and attempts to 
+ * extract & recreate the target file whose bytes first has been Base64 encoded
+ * and then AES encrypted using a key. 
+ * 
+ * This key has to be 16 bytes (16 characters long) for this class. This is a simple
+ * implementation of the encryption (of AES) with only a plaintext password. This is not 
+ * a very strong system in face of known dictionary attacks for guessing the password.
+ * 
+ * After decrypting the text it creates the resulting file in the path provided.
  * <br><b>Please note, this class is not just an AES encrypted text to plain text 
  * class. It has custom manipulation.</b>
+ * 
  * @author Sujit
  *
  */
