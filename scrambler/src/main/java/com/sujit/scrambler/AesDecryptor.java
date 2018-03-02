@@ -20,6 +20,7 @@ import com.google.common.base.Splitter;
  * This key has to be 16 bytes (16 characters long) for this class. This is a simple
  * implementation of the encryption (of AES) with only a plaintext password. This is not 
  * a very strong system in face of known dictionary attacks for guessing the password.
+ * For normal use cases this might suffice, but use with discretion.
  * 
  * After decrypting the text it creates the resulting file in the path provided.
  * <br><b>Please note, this class is not just an AES encrypted text to plain text 
