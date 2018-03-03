@@ -50,8 +50,10 @@ public class AesCryptoUtils {
 			cipher.init(Cipher.DECRYPT_MODE, secretKey);
 			decryptedByte = cipher.doFinal(encryptedTextByte);
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException| BadPaddingException e) {
-			e.printStackTrace();
-			throw new IllegalArgumentException("Issue encountered while decrypting data. "+e.getMessage()); 
+			// e.printStackTrace();
+			String errorMessage = "Issue encountered while decrypting data. "+e.getMessage();
+			System.err.println(errorMessage);
+			throw new IllegalArgumentException(errorMessage); 
 		}
 		decryptedText = new String(decryptedByte);
 		return decryptedText;
@@ -81,8 +83,10 @@ public class AesCryptoUtils {
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 			encryptedByte = cipher.doFinal(plainTextByte);
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException| BadPaddingException e) {
-			e.printStackTrace();
-			throw new IllegalArgumentException("Issue encountered while encrypting data. "+e.getMessage());
+			// e.printStackTrace();
+			String errorMessage = "Issue encountered while encrypting data. "+e.getMessage();
+			System.err.println(errorMessage);
+			throw new IllegalArgumentException(errorMessage); 
 		}
 		Base64.Encoder encoder = Base64.getEncoder();
 		String encryptedText = encoder.encodeToString(encryptedByte);
