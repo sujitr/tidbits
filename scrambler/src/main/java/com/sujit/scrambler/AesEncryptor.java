@@ -51,7 +51,7 @@ public class AesEncryptor {
 		// convert the read byte array from file to a Base64 encoded string
 		base64String = Base64.encodeBase64String(buffer);
 		// encrypt that Base64 encoded string using AES
-		encryptedBase64EncodedText = AesCryptoUtils.encrypt(base64String, keyValue);
+		encryptedBase64EncodedText = AesCryptoUtils.encryptWithPlainTextKey(base64String, keyValue);
 		/*
 		 * In case of very large Base64 encoded strings its required to 
 		 * break the string into 76 character line chunks which helps to fit 

@@ -60,7 +60,7 @@ public class AesDecryptor {
     	 */
     	String encryptedText = Joiner.on("").join(Splitter.on("\n").trimResults().split(encryptedTextChunked));
     	// decrypting the data
-    	String decryptedText = AesCryptoUtils.decrypt(encryptedText, keyValue);
+    	String decryptedText = AesCryptoUtils.decryptWithPlainTextKey(encryptedText, keyValue);
     	// decoding on Base64
     	byte[] decodedBuffer = Base64.decodeBase64(decryptedText);
     	System.out.println("|-- decoded....writing contents in output file...");
