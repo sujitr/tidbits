@@ -1,8 +1,15 @@
 package com.sujit.scrambler;
 
+import java.security.SecureRandom;
+import java.security.spec.KeySpec;
+import java.security.AlgorithmParameters;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.InvalidParameterSpecException;
+import java.security.InvalidAlgorithmParameterException;
 import java.util.Base64;
+import java.io.UnsupportedEncodingException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -10,6 +17,12 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.SecretKeyFactory; 
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.IvParameterSpec; 
+
+import org.apache.commons.codec.binary.Hex; 
+import org.apache.commons.codec.DecoderException;
 
 
 /**
@@ -23,6 +36,10 @@ import javax.crypto.spec.SecretKeySpec;
 public class AesCryptoUtils {
 	
 	public static Cipher cipher;
+	public final static int SALT_LEN = 8;
+	private final int KEYLEN_BITS = 128;
+    private final int ITERATIONS = 65536;
+    
 	
 	/**
 	 * Method to decrypt a given AES encrypted string with a plaintext key.
@@ -92,5 +109,73 @@ public class AesCryptoUtils {
 		String encryptedText = encoder.encodeToString(encryptedByte);
 		return encryptedText;
 	}
+	
+	/**
+	 * Method to encrypt a given string with a plain text password. The key for the encryption is 
+	 * derived from a salt and using initilation vector. This approach is more resistant to attacks.
+	 * 
+	 * Please Note: If you are going for a 256 bit key, please make sure the proper JCE Jurisdiction 
+	 * library is available in classpath.
+	 * 
+	 */
+	public static String encryptWithSaltIV(String plainText, String password) {
+	    byte[] plainTextByte = null;
+	    byte[] encryptedByte = null;
+	    byte[] iv = null;
+	    /* Create secure random salt value */
+	    byte[] salt = new byte[SALT_LEN];
+	    SecureRandom random = new SecureRandom();
+	    random.nextBytes(salt);
+	    try {
+	        plainTextByte = plainText.getBytes("UTF-8");
+	        /* Derive the key, given password and salt. */
+    	    SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+    	    KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);  //The magic numbers 65536 and 256 are the key derivation iteration count and the key size, respectively.
+    	    SecretKey tempSecret = factory.generateSecret(spec);
+    	    SecretKey secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES");
+    	    /* Encrypt the message. */
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            AlgorithmParameters params = cipher.getParameters();
+            iv = params.getParameterSpec(IvParameterSpec.class).getIV();
+            encryptedByte = cipher.doFinal(plainTextByte);
+	    } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException| BadPaddingException| InvalidKeySpecException| InvalidParameterSpecException| UnsupportedEncodingException e) {
+	        String errorMessage = "Issue encountered while encrypting data. "+e.getMessage();
+			System.err.println(errorMessage);
+			throw new IllegalArgumentException(errorMessage); 
+	    }
+	    Base64.Encoder encoder = Base64.getEncoder();
+		String encryptedText = encoder.encodeToString(encryptedByte);
+		System.out.println("Generated SALT for this encryption : "+ Hex.encodeHexString(salt));
+		System.out.println("Generated Initialization Vector : "+ Hex.encodeHexString(iv));
+		return encryptedText;
+	}
+	
+	
+	public static String decryptWithSaltIV(String encryptedText, String password, String saltString, String ivString) { 
+	    String decryptedText = null;
+		Base64.Decoder decoder = Base64.getDecoder();
+		byte[] encryptedTextByte = decoder.decode(encryptedText);
+		byte[] decryptedByte = null;
+		byte[] salt = null;
+		byte[] iv = null;  
+		try {
+		    salt = Hex.decodeHex(saltString.toCharArray());
+		    iv = Hex.decodeHex(ivString.toCharArray()); 
+		    SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+		    KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
+		    SecretKey tempSecret = factory.generateSecret(spec);
+    	    SecretKey secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES");
+    	    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+    	    cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
+    	    decryptedByte = cipher.doFinal(encryptedTextByte);
+		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException| BadPaddingException| InvalidKeySpecException| DecoderException | InvalidAlgorithmParameterException e) {  
+	        String errorMessage = "Issue encountered while decrypting data. "+e.getMessage();
+			System.err.println(errorMessage);
+			throw new IllegalArgumentException(errorMessage); 
+	    }
+		decryptedText = new String(decryptedByte);
+		return decryptedText;
+	} 
 	
 }
