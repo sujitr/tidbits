@@ -16,12 +16,18 @@ import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestName;
 import java.io.IOException;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Tests to check methods of FileCompare class.
  * Currently this class uses JUnit4 TemporaryFolder rules for excuting the tests.
  * In future it needs to be moved to JUnit5 extension based mechanism.
  */
 public class FileCompareTest {
+    
+    private static final Logger logger = LogManager.getLogger(FileCompareTest.class.getName());
     
     String originalFileName = "sourceFile.data";
     String copiedFileName = "copyFile.data";
@@ -36,7 +42,7 @@ public class FileCompareTest {
     
     @Before
     public void setupFiles() throws IOException {
-        System.out.println("Creating temporary files for comparison...");
+        logger.debug("Creating temporary files for comparison...");
         byte[] buffer = new byte[1024 * 1024 * 10];
         /*
          * Create and fill up the source file with random binary data
@@ -58,7 +64,7 @@ public class FileCompareTest {
              FileChannel out = new FileOutputStream(copyFile).getChannel()) {
             in.transferTo(0, in.size(), out);
         }
-        System.out.println("source and destination files are created for comparison.");
+        logger.debug("source and destination files are created for comparison.");
     }
     
     @After
@@ -69,13 +75,13 @@ public class FileCompareTest {
         if(copyFile.exists()){
             copyFile.delete(); 
         }
-        System.out.println("source and destination files are deleted.");
+        logger.debug("source and destination files are deleted.");
     }
     
     
     @Test
     public void testSimpleFileCompare() throws IOException {
-        System.out.println("Currently executing : "+testName.getMethodName());
+        logger.info("Currently executing : {}", testName.getMethodName());
         BufferedInputStream f1 = new BufferedInputStream(new FileInputStream(sourceFile));
         BufferedInputStream f2 = new BufferedInputStream(new FileInputStream(copyFile));
         FileCompare.findDifference(f1, f2);
@@ -83,7 +89,7 @@ public class FileCompareTest {
     
     @Test
     public void testMemoryMappedFileCompare() throws IOException {
-        System.out.println("Currently executing : "+testName.getMethodName());
+        logger.info("Currently executing : {}", testName.getMethodName()); 
         RandomAccessFile f1 = new RandomAccessFile(sourceFile, "r");
         RandomAccessFile f2 = new RandomAccessFile(copyFile, "r");
         FileCompare.findDifferenceInMemory(f1,f2); 

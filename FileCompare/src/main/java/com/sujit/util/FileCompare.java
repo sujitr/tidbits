@@ -7,10 +7,15 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Utility class to compare two files.
  */
 public class FileCompare {
+    
+    private static final Logger logger = LogManager.getLogger(FileCompare.class.getName());
    
     public FileCompare(){
         
@@ -22,27 +27,31 @@ public class FileCompare {
      * 
      * @param fis1 - BufferedInputStream of first file
      * @param fis2 - BufferedInputStream of second file
+     * @return boolean - true if files are identical, false otherwise
      */
-    public static void findDifference(BufferedInputStream fis1, BufferedInputStream fis2) throws IOException {
+    public static boolean findDifference(BufferedInputStream fis1, BufferedInputStream fis2) throws IOException {
+        boolean diffFlag = false;
         long start = System.nanoTime();
         int b1 = 0, b2 = 0, pos = 1; 
         while(b1 != -1 && b2 != -1){
             if(b1 != b2){
-                System.out.println("Files differ at position :"+pos);
+                logger.debug("Files differ at position : {}",pos);
             }
             pos++;
             b1 = fis1.read();
             b2 = fis2.read();
         }
-        if(b1 != b2){
-            System.out.println("Comparison complete. Files have different length");
+        if(b1 != b2){ 
+            logger.info("Comparison complete. Files have different length");
         } else {
-            System.out.println("Comparison complete. Files are identical.");
+            diffFlag = true;
+            logger.info("Comparison complete. Files are identical.");
         }
         fis1.close();
         fis2.close();
         long end = System.nanoTime();
-        System.out.println("Execution time: "+ (end - start)/1000000 + " ms");
+        logger.info("Execution time: {} ms", (end - start)/1000000);
+        return diffFlag;
     }
     
     /**
@@ -50,26 +59,30 @@ public class FileCompare {
      * 
      * @param file1 - RandomAccessFile reference of first file
      * @param file2 - RandomAccessFile reference of second file
+     * @return boolean - true if files are identical, false otherwise
      */
-    public static void findDifferenceInMemory(RandomAccessFile file1, RandomAccessFile file2) throws IOException {
+    public static boolean findDifferenceInMemory(RandomAccessFile file1, RandomAccessFile file2) throws IOException {
+        boolean diffFlag = false;
         long start = System.nanoTime();
         FileChannel fch1 = file1.getChannel();
         FileChannel fch2 = file2.getChannel();
         if(fch1.size()!=fch2.size()){
-           System.out.println("Files have different length. Not possible to compare.");
-           return;
+           logger.debug("Files have different length. Not possible to compare.");
+           return diffFlag;
         }
         long size = fch1.size();
         ByteBuffer buf1 = fch1.map(FileChannel.MapMode.READ_ONLY, 0L, size);
         ByteBuffer buf2 = fch2.map(FileChannel.MapMode.READ_ONLY, 0L, size);
         for(int pos = 0; pos < size; pos++){
             if(buf1.get(pos) != buf2.get(pos)){
-                System.out.println("Files differ at position: "+pos);
-                return;
+                logger.debug("Files differ at position : {}",pos);
+                return diffFlag;
             }
         }
-        System.out.println("Files are identical.");
+        diffFlag = true;
+        logger.info("Files are identical.");
         long end = System.nanoTime();
-        System.out.println("Execution time: "+ (end - start)/1000000 + " ms");
+        logger.info("Execution time: {} ms", (end - start)/1000000);
+        return diffFlag;
     }
 }
