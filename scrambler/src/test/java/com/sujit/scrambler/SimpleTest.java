@@ -13,6 +13,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.sujit.scrambler.electives.CryptoArchitecture;
+import com.sujit.scrambler.electives.SymmetricCryptoChoices;
+import com.sujit.scrambler.engines.CryptoEngine;
 import com.sujit.scrambler.factory.*;
 import com.sujit.util.FileCompare;
 
