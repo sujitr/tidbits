@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Tests to check methods of FileCompare class.
- * Currently this class uses JUnit4 TemporaryFolder rules for excuting the tests.
+ * Currently this class uses JUnit4 TemporaryFolder rules for executing the tests.
  * In future it needs to be moved to JUnit5 extension based mechanism.
  */
 public class FileCompareTest {
@@ -47,7 +47,7 @@ public class FileCompareTest {
         /*
          * Create and fill up the source file with random binary data
          */
-        sourceFile = tempFolder.newF‌ile(originalFileName);
+        sourceFile = tempFolder.newFile(originalFileName);
         try (FileOutputStream fos = new FileOutputStream(sourceFile)) {
             Random random = new Random();
             for (int i = 0; i < 16; i++) {
@@ -59,7 +59,7 @@ public class FileCompareTest {
          * Copy the source file to another file for comparison purpose.
          * This can later be done by something else like network copy etc.
          */
-        copyFile = tempFolder.newF‌ile(copiedFileName);
+        copyFile = tempFolder.newFile(copiedFileName);
         try (FileChannel in = new FileInputStream(sourceFile).getChannel();
              FileChannel out = new FileOutputStream(copyFile).getChannel()) {
             in.transferTo(0, in.size(), out);
