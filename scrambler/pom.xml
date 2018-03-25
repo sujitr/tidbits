@@ -12,16 +12,24 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>4.12</junit.version>
+    <junit-vintage-engine>4.12.1</junit-vintage-engine>
     <junit.jupiter.version>5.1.0</junit.jupiter.version>
     <java.version>1.8</java.version>
   </properties>
 
   <dependencies>
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit.jupiter.version}</version>
-      <scope>test</scope>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${junit.jupiter.version}</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
     </dependency>
     <dependency>
 		<groupId>commons-codec</groupId>
@@ -37,6 +45,11 @@
 		<groupId>com.google.guava</groupId>
 		<artifactId>guava</artifactId>
 		<version>18.0</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.sujit</groupId>
+        <artifactId>file-compare</artifactId>
+        <version>1.0-SNAPSHOT</version>
 	</dependency>
   </dependencies>
   
@@ -73,6 +86,12 @@
                       <groupId>org.junit.platform</groupId>
                       <artifactId>junit-platform-surefire-provider</artifactId>
                       <version>1.1.0</version>
+                   </dependency>
+                   <!-- JUnit vintage engine to run JUnit 3 or JUnit 4 tests -->
+                   <dependency>
+                      <groupId>org.junit.vintage</groupId>
+                      <artifactId>junit-vintage-engine</artifactId>
+                      <version>${junit-vintage-engine}</version>
                    </dependency>
                 </dependencies>
          </plugin>

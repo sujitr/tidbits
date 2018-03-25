@@ -10,6 +10,7 @@ import java.security.spec.InvalidParameterSpecException;
 import java.security.InvalidAlgorithmParameterException;
 import java.util.Base64;
 import java.io.UnsupportedEncodingException;
+import javax.crypto.spec.GCMParameterSpec ;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -44,8 +45,9 @@ public class AesCryptoUtils {
 	/**
 	 * Method to decrypt a given AES encrypted string with a plaintext key.
 	 * No explicit cipher mode is provided in this method, hence default EBC mode is 
-	 * applied here. 
-	 * Also padding mode is the default PKCS5Padding.
+	 * applied here. Also padding mode is the default PKCS5Padding.
+	 * Please use this method with discretion because of its relative weakness against
+	 * replay attacks.
 	 * 
 	 * @param encryptedText
 	 *         String which has been encrypted with AES 
@@ -79,8 +81,11 @@ public class AesCryptoUtils {
 	/**
 	 * Method to encrypt a given string with a plaintext key to an encrypted string. 
 	 * No explicit cipher mode is provided in this method, hence default EBC mode is 
-	 * applied here. 
-	 * Also padding mode is the default PKCS5Padding.
+	 * applied here. Also padding mode is the default PKCS5Padding.
+	 * Please use this method with discretion because of its relative weakness against
+	 * replay attacks. Plaintext blocks generates identical cipher text blocks with 
+	 * EBC.
+	 * 
 	 * 
 	 * @param plainText
 	 *         String having the normal text which needs to be encrypted
@@ -134,7 +139,7 @@ public class AesCryptoUtils {
     	    SecretKey tempSecret = factory.generateSecret(spec);
     	    SecretKey secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES");
     	    /* Encrypt the message. */
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); 
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             AlgorithmParameters params = cipher.getParameters();
             iv = params.getParameterSpec(IvParameterSpec.class).getIV();
@@ -177,5 +182,37 @@ public class AesCryptoUtils {
 		decryptedText = new String(decryptedByte);
 		return decryptedText;
 	} 
+	
+	
+	public static String encryptWithGCM(String plainText, String password) {
+	    byte[] plainTextByte = null;
+	    byte[] encryptedByte = null;
+	    byte[] aadData = "random".getBytes() ;
+	    /* Create secure random salt value */
+	    byte[] iv = new byte[SALT_LEN];
+	    SecureRandom random = new SecureRandom();
+	    random.nextBytes(iv);
+	    try {
+	        plainTextByte = plainText.getBytes("UTF-8");
+	        /* Derive the key, given password and salt. */
+    	    SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+    	    KeySpec spec = new PBEKeySpec(password.toCharArray(), iv, 65536, 256);  // need to remove iv and get salt back here
+    	    SecretKey tempSecret = factory.generateSecret(spec);
+    	    SecretKey secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES");
+    	    /* Encrypt the message. */
+    	    GCMParameterSpec gcmParamSpec = new GCMParameterSpec(128, iv) ;
+            Cipher cipher = Cipher.getInstance("AES/GCM/PKCS5Padding"); 
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParamSpec, new SecureRandom());  
+            cipher.updateAAD(aadData);
+            encryptedByte = cipher.doFinal(plainTextByte);
+	    } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException| BadPaddingException| InvalidKeySpecException| InvalidAlgorithmParameterException | UnsupportedEncodingException e) { 
+            e.printStackTrace(); 
+	    }
+	    Base64.Encoder encoder = Base64.getEncoder();
+		String encryptedText = encoder.encodeToString(encryptedByte);
+		System.out.println("Generated IV for this encryption : "+ Hex.encodeHexString(iv));
+		System.out.println("Generated AAD : "+ Hex.encodeHexString(aadData));
+		return encryptedText;
+	}
 	
 }
