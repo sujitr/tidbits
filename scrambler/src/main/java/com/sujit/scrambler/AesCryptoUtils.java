@@ -25,6 +25,9 @@ import javax.crypto.spec.IvParameterSpec;
 import org.apache.commons.codec.binary.Hex; 
 import org.apache.commons.codec.DecoderException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 /**
  * Utility class to provide different modes for AES encryption. It provides methods 
@@ -35,6 +38,8 @@ import org.apache.commons.codec.DecoderException;
  *      Sujit
  */
 public class AesCryptoUtils {
+	
+	private static final Logger logger = LogManager.getLogger(AesCryptoUtils.class.getName());
 	
 	public static Cipher cipher;
 	public final static int SALT_LEN = 8;
@@ -71,7 +76,7 @@ public class AesCryptoUtils {
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException| BadPaddingException e) {
 			// e.printStackTrace();
 			String errorMessage = "Issue encountered while decrypting data. "+e.getMessage();
-			System.err.println(errorMessage);
+			logger.error(errorMessage);
 			throw new IllegalArgumentException(errorMessage); 
 		}
 		decryptedText = new String(decryptedByte);
@@ -107,7 +112,7 @@ public class AesCryptoUtils {
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException| BadPaddingException e) {
 			// e.printStackTrace();
 			String errorMessage = "Issue encountered while encrypting data. "+e.getMessage();
-			System.err.println(errorMessage);
+			logger.error(errorMessage);
 			throw new IllegalArgumentException(errorMessage); 
 		}
 		Base64.Encoder encoder = Base64.getEncoder();
@@ -146,13 +151,13 @@ public class AesCryptoUtils {
             encryptedByte = cipher.doFinal(plainTextByte);
 	    } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException| BadPaddingException| InvalidKeySpecException| InvalidParameterSpecException| UnsupportedEncodingException e) {
 	        String errorMessage = "Issue encountered while encrypting data. "+e.getMessage();
-			System.err.println(errorMessage);
+	        logger.error(errorMessage);
 			throw new IllegalArgumentException(errorMessage); 
 	    }
 	    Base64.Encoder encoder = Base64.getEncoder();
 		String encryptedText = encoder.encodeToString(encryptedByte);
-		System.out.println("Generated SALT for this encryption : "+ Hex.encodeHexString(salt));
-		System.out.println("Generated Initialization Vector : "+ Hex.encodeHexString(iv));
+		logger.info("Generated SALT for this encryption : {}", Hex.encodeHexString(salt));
+		logger.info("Generated Initialization Vector : {}", Hex.encodeHexString(iv));
 		return encryptedText;
 	}
 	
@@ -176,7 +181,7 @@ public class AesCryptoUtils {
     	    decryptedByte = cipher.doFinal(encryptedTextByte);
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException| BadPaddingException| InvalidKeySpecException| DecoderException | InvalidAlgorithmParameterException e) {  
 	        String errorMessage = "Issue encountered while decrypting data. "+e.getMessage();
-			System.err.println(errorMessage);
+			logger.error(errorMessage);
 			throw new IllegalArgumentException(errorMessage); 
 	    }
 		decryptedText = new String(decryptedByte);
@@ -210,8 +215,8 @@ public class AesCryptoUtils {
 	    }
 	    Base64.Encoder encoder = Base64.getEncoder();
 		String encryptedText = encoder.encodeToString(encryptedByte);
-		System.out.println("Generated IV for this encryption : "+ Hex.encodeHexString(iv));
-		System.out.println("Generated AAD : "+ Hex.encodeHexString(aadData));
+		logger.info("Generated IV for this encryption : {}", Hex.encodeHexString(iv));
+		logger.info("Generated AAD : {}", Hex.encodeHexString(aadData));
 		return encryptedText;
 	}
 	
