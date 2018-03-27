@@ -20,6 +20,15 @@ import org.apache.commons.codec.binary.Base64InputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Simple AES implementation, without any explicit cipher mode for blocks, 
+ * and without any explicit padding declaration.
+ * By default EBC cipher mode is used, along with PKCS5Padding, which is inherently 
+ * susceptible for replay attacks. Please use with discretion.
+ * 
+ * @author Sujit
+ * @since 2018
+ */
 public class SimpleAESEngine implements CryptoEngine {
 	private final static Logger logger = LogManager.getLogger(SimpleAESEngine.class.getName());
 	
@@ -31,6 +40,7 @@ public class SimpleAESEngine implements CryptoEngine {
         MAX_FILE_BUF = 1024;
     }
     
+    @Override
     public void configDecrypt(String plainTextKey){
         try {
 			dCipher = Cipher.getInstance("AES");
@@ -42,6 +52,7 @@ public class SimpleAESEngine implements CryptoEngine {
 
     }
     
+    @Override
     public void configEncrypt(String plainTextKey) {
         try {
 			eCipher = Cipher.getInstance("AES");
@@ -52,6 +63,7 @@ public class SimpleAESEngine implements CryptoEngine {
 		}
     }
     
+    @Override
     public void encrypt(InputStream in, OutputStream out){
         int nread = 0;
         byte[] inbuf = new byte [MAX_FILE_BUF]; 
@@ -78,7 +90,7 @@ public class SimpleAESEngine implements CryptoEngine {
 
     }
     
-    
+    @Override
 	public void decrypt(InputStream encryptedStream, OutputStream out) {
 	   int nread = 0;
 	   byte [] inbuf = new byte [MAX_FILE_BUF];
