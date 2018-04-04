@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.commons.codec.binary.Base64OutputStream;
-import org.apache.commons.codec.binary.Base64InputStream; 
+import org.apache.commons.codec.binary.Base64InputStream;  
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
  * Simple AES implementation, without any explicit cipher mode for blocks, 
  * and without any explicit padding declaration.
  * By default EBC cipher mode is used, along with PKCS5Padding, which is inherently 
- * susceptible for replay attacks. Please use with discretion.
+ * susceptible for replay attacks or known plaintext attacks. Please use with discretion.
  * 
  * @author Sujit
  * @since 2018

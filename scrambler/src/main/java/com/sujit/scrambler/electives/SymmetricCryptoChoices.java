@@ -11,8 +11,9 @@ package com.sujit.scrambler.electives;
  *                also uses Salt and Initialization Vector to create/derive the key from a 
  *                given plaintext password.
  * 
+ * AES_CTR      :
  * AES_GCM      :
- * AES_CTR      :  
+ * AES_CCM      
  */
 public enum SymmetricCryptoChoices implements CryptoChoices {
     AES_DEFAULT, AES_CBC, AES_GCM, AES_CTR  
