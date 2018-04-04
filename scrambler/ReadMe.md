@@ -15,3 +15,8 @@ Make sure your key strength is relatively strong and possible AES superiority ov
 
 ## Future Improvements
 Have to move towards 32 byte (256 bit) key based AES standard.
+
+#### References
+1. [Veracode Article] (https://www.veracode.com/blog/research/encryption-and-decryption-java-cryptography)
+2. [Java 256-bit AES Password-Based Encryption] (https://stackoverflow.com/questions/992019/java-256-bit-aes-password-based-encryption)
+3. [Symmetric Encryption Best Practices] (https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-7616beaaade9)
