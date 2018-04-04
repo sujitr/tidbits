@@ -2,9 +2,9 @@ package com.sujit.scrambler.electives;
 
 /**
  * Parent interface to mark the choices within an
- * cryptographic architecture. 
- * This is used while manufacturing a certain type
- * of product out from a group of products from a 
- * given factory.
+ * cryptographic architecture based factory. 
+ * This is used to specify a certain type
+ * of product out of a group of products which
+ * are produced in a factory.
  */
 public interface CryptoChoices {}
