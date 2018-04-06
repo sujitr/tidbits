@@ -20,3 +20,4 @@ Have to move towards 32 byte (256 bit) key based AES standard.
 1. [Veracode Article](https://www.veracode.com/blog/research/encryption-and-decryption-java-cryptography)
 2. [Java 256-bit AES Password-Based Encryption](https://stackoverflow.com/questions/992019/java-256-bit-aes-password-based-encryption)
 3. [Symmetric Encryption Best Practices](https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-7616beaaade9)
+4. [Encryption of big files with GCM](https://crypto.stackexchange.com/questions/20333/encryption-of-big-files-in-java-with-aes-gcm)

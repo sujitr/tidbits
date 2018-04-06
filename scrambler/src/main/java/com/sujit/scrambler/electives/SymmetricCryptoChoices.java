@@ -16,5 +16,5 @@ package com.sujit.scrambler.electives;
  * AES_CCM      
  */
 public enum SymmetricCryptoChoices implements CryptoChoices {
-    AES_DEFAULT, AES_CBC, AES_GCM, AES_CTR  
+    AES_DEFAULT, AES_CBC, AES_GCM, AES_CTR, AES_CCM
 }
