@@ -31,7 +31,7 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Utility class to provide different modes for AES encryption. It provides methods 
- * which uses simple plaintext key based approach as well as advanced salt and 
+ * which uses simple plain text key based approach as well as advanced salt and 
  * initialization vector based approach to guard against dictionary and rainbow attacks.
  * 
  * @author

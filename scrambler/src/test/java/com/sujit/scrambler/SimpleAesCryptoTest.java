@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SimpleAesCryptoTest {
     
     @Test
+    @DisplayName("Simple Encryption Test with 16 bit Key")
     void testSimpleEncryptionWithPlainText16bitKey() {
         String plainText = "hello world! I am a simple program.";
         String plainTextKey = "Z7eT12HwqBnW37hY";
@@ -24,6 +25,7 @@ public class SimpleAesCryptoTest {
     
     
     @Test
+    @DisplayName("Simple Encryption Test with 15 bit Key - with expected failure")
     void testSimpleEncryptionWithPlainText15bitKey() {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
             String plainText = "hello world! I am a simple program.";
