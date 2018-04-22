@@ -53,12 +53,12 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     }
     
     @Override
-    public void configDecrypt(String plainTextKey){
+    public void configDecrypt(char[] plainTextKey, String... otherParams){
         
     }
     
     @Override
-    public void configEncrypt(String plainTextKey){
+    public void configEncrypt(char[] plainTextKey){
         // Generating salt
         byte[] salt = new byte[SALT_SIZE] ;
         SecureRandom secRandom = new SecureRandom() ;
@@ -77,7 +77,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
         SecretKey secretKey = null ;
         try {
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-    	    KeySpec spec = new PBEKeySpec(plainTextKey.toCharArray(), salt, 65536, AES_KEY_SIZE * 8);
+    	    KeySpec spec = new PBEKeySpec(plainTextKey, salt, 65536, AES_KEY_SIZE * 8);
     	    SecretKey tempSecret = factory.generateSecret(spec);
     	    secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES");
     	    GCMParameterSpec gcmParamSpec = new GCMParameterSpec(TAG_BIT_LENGTH, iv) ;

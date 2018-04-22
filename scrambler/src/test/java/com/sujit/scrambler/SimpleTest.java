@@ -34,7 +34,7 @@ public class SimpleTest {
         CryptoFactory factory = CryptoFactory.getCryptoFactory(CryptoArchitecture.SYMMETRIC);
         CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_DEFAULT);  
         String plainTextKey = "Z7eT12HwqBnW37hY"; // testing with 16 byte key
-        engine.configEncrypt(plainTextKey);
+        engine.configEncrypt(plainTextKey.toCharArray());
         
         // Create temporary files for testing
         final File testFile = tempFolder.newFile("tempFile.txt");
@@ -53,7 +53,7 @@ public class SimpleTest {
         in.close(); out.close();
         logger.debug("Encrypted file is having content as '{}' ", FileUtils.readFileToString(encryptedFile,"ISO-8859-1"));
         
-        engine.configDecrypt(plainTextKey);
+        engine.configDecrypt(plainTextKey.toCharArray());
         
         FileInputStream in2 = FileUtils.openInputStream(encryptedFile);
         FileOutputStream out2 = FileUtils.openOutputStream(decryptedFile);

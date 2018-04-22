@@ -2,6 +2,10 @@ package com.sujit.scrambler.engines;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 
 /**
  * Interface outlining base functionalities of 
@@ -20,28 +24,33 @@ public interface CryptoEngine {
      * in forming a secure key or salt or initialization 
      * vector as required.
      * 
-     * @param String
-     *      plaintext key provided by the user to set up decryption
+     * @param key 
+     * 		plaintext key provided by the user to set up decryption
+     *  @param extraParameters
+     *  	 	other extra parameters like salt and initialization vector as needed. This
+     *  		is a varargs parameter enabling multiple param values. Please ensure
+     *  		proper sequencing while reading them. Should match with sequence 
+     *  		of call.  
      */
-    public void configDecrypt(String key);
+    public void configDecrypt(char[] key, String...  extraParameters);
     
     /**
      * Method to set up the encryption process. It may help 
      * in forming a secure key or salt or initialization 
      * vector as required.
      * 
-     * @param String
+     * @param key
      *          plaintext key provided by the user to set up encryption
      */
-    public void configEncrypt(String key);
+    public void configEncrypt(char[] key);
     
     /**
      * Method to decrypt a given inputstream, after decryption has been
      * set up with the user provided key.
      * 
-     * @param InputStream
+     * @param in
      *          input stream object which needs to be decrypted
-     * @param OutputStream
+     * @param out
      *          output stream object to which decrypted data is written
      *          out
      */
@@ -51,11 +60,29 @@ public interface CryptoEngine {
      * Method to encrypet a given inputstream, after encryption has been
      * set up with the user provided key.
      * 
-     * @param InputStream
+     * @param in
      *          input stream object which needs to encrypted
-     * @param OutputStream
+     * @param out
      *          output stream object to which decrypted data is written
      *          out
      */
     public void encrypt(InputStream in, OutputStream out);
+    
+    /**
+     * Default utility method for converting character array to byte array.
+     * It is used to change input passwords to byte array whenever needed.
+     * @param chars
+     * 		password as character array
+     * @return
+     * 		byte array of the password
+     */
+    public default byte[] toBytes(char[] chars) {
+        CharBuffer charBuffer = CharBuffer.wrap(chars);
+        ByteBuffer byteBuffer = Charset.forName("UTF-8").encode(charBuffer);
+        byte[] bytes = Arrays.copyOfRange(byteBuffer.array(),
+                byteBuffer.position(), byteBuffer.limit());
+        Arrays.fill(charBuffer.array(), '\u0000'); // clear sensitive data
+        Arrays.fill(byteBuffer.array(), (byte) 0); // clear sensitive data
+        return bytes;
+    }
 }

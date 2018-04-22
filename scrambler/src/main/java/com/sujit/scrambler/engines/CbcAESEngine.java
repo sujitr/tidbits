@@ -14,13 +14,13 @@ import java.io.OutputStream;
 public class CbcAESEngine implements CryptoEngine {
 
 	@Override
-	public void configDecrypt(String key) {
+	public void configDecrypt(char[] key, String... extraParameters) {
 		// TODO Auto-generated method stub
-
+		
 	}
-
+	
 	@Override
-	public void configEncrypt(String key) {
+	public void configEncrypt(char[] key) {
 		// TODO Auto-generated method stub
 
 	}

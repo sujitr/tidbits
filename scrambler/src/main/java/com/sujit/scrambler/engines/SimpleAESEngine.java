@@ -2,6 +2,7 @@ package com.sujit.scrambler.engines;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.io.IOException; 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -41,10 +42,11 @@ public class SimpleAESEngine implements CryptoEngine {
     }
     
     @Override
-    public void configDecrypt(String plainTextKey){
+    public void configDecrypt(char[] plainTextKey, String... otherData){
         try {
 			dCipher = Cipher.getInstance("AES");
-			SecretKey secretKey = new SecretKeySpec(plainTextKey.getBytes(), "AES");
+			SecretKey secretKey = new SecretKeySpec(toBytes(plainTextKey), "AES");
+			Arrays.fill(plainTextKey, '\u0000'); // clear sensitive data
 			dCipher.init(Cipher.DECRYPT_MODE, secretKey);
 		}catch(InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e){
 		    logger.error("Error in configuring decryption {} ", e);
@@ -53,10 +55,10 @@ public class SimpleAESEngine implements CryptoEngine {
     }
     
     @Override
-    public void configEncrypt(String plainTextKey) {
+    public void configEncrypt(char[] plainTextKey) {
         try {
 			eCipher = Cipher.getInstance("AES");
-			SecretKey secretKey = new SecretKeySpec(plainTextKey.getBytes(), "AES");
+			SecretKey secretKey = new SecretKeySpec(toBytes(plainTextKey), "AES");
 			eCipher.init(Cipher.ENCRYPT_MODE, secretKey);
 		}catch(InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e){
 		    logger.error("Error in configuring encryption {} ", e);
