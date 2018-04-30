@@ -70,7 +70,7 @@ public class SimpleAESEngine implements CryptoEngine {
         int nread = 0;
         byte[] inbuf = new byte [MAX_FILE_BUF]; 
         /* you can also replace the below functionality 
-            with a IOUTils copy from a CipherInputStream to Base64OutputStream */
+            with a IOUtils copy from a CipherInputStream to Base64OutputStream */
         try (Base64OutputStream encryptedStream = new Base64OutputStream(out);) {
         	logger.debug("encrypting....");
             while((nread = in.read(inbuf))>0){

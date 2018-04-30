@@ -28,10 +28,11 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     private Cipher dCipher;
     private Cipher eCipher;
     
-    private final int AES_KEY_SIZE;
-    private final int SALT_SIZE;
-    private final int IV_SIZE;
+    private final int AES_KEY_SIZE;     // derived key length
+    private final int SALT_SIZE;        // should bea atleast 64 bits
+    private final int IV_SIZE;          // initialization vector, should be atleast 96 bits
     private final int TAG_BIT_LENGTH;
+    private final int ITERATION_COUNT;  // iteration count anything greater than 12288
     private final byte[] aadData;
     
     private static final String seedString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -42,6 +43,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
         SALT_SIZE = 64;
         IV_SIZE = 96;
         TAG_BIT_LENGTH = 128;
+        ITERATION_COUNT = 65536;
     }
     
     private String getRandomString(int lengthOfString){
@@ -70,21 +72,24 @@ public class GaloisCounterAESEngine implements CryptoEngine {
 	    random.nextBytes(iv);
         
 	    /* 
-	     * generating key based on IV and plainTextKey and then initiating the encryption cipher
-	     * this is basically a PBKDF2 (Password based key derivation function). Encryption is
-	     * performed with that generated key.
+	     * Generating key based on salt and plainTextKey.
+	     * This is basically a PBKDF2 (Password based key derivation function). 
+	     * 
+	     * Encryption is then performed with that generated key and initilaization vector (IV).
 	     */
-        SecretKey secretKey = null ;
+        SecretKey secretKey = null ; 
         try {
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-    	    KeySpec spec = new PBEKeySpec(plainTextKey, salt, 65536, AES_KEY_SIZE * 8);
+    	    KeySpec spec = new PBEKeySpec(plainTextKey, salt, ITERATION_COUNT, AES_KEY_SIZE * 8);
+    	    SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
     	    SecretKey tempSecret = factory.generateSecret(spec);
     	    secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES");
     	    GCMParameterSpec gcmParamSpec = new GCMParameterSpec(TAG_BIT_LENGTH, iv) ;
             eCipher = Cipher.getInstance("AES/GCM/PKCS5Padding"); 
-            eCipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParamSpec, new SecureRandom());
+            eCipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParamSpec, new SecureRandom()); 
+            eCipher.updateAAD(aadData);
         } catch(NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | InvalidKeySpecException ex) {
-            System.out.println("Key being request is for AES algorithm, but this cryptographic algorithm is not available in the environment "  + ex);
+
+            logger.error("|-- Error while encrypting data - "+ex.getMessage(), ex);
         }
     }
     
