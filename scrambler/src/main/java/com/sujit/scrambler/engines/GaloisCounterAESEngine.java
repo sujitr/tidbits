@@ -29,7 +29,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     private Cipher eCipher;
     
     private final int AES_KEY_SIZE;     // derived key length
-    private final int SALT_SIZE;        // should bea atleast 64 bits
+    private final int SALT_SIZE;        // should be atleast 64 bits
     private final int IV_SIZE;          // initialization vector, should be atleast 96 bits
     private final int TAG_BIT_LENGTH;
     private final int ITERATION_COUNT;  // iteration count anything greater than 12288
@@ -88,7 +88,6 @@ public class GaloisCounterAESEngine implements CryptoEngine {
             eCipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParamSpec, new SecureRandom()); 
             eCipher.updateAAD(aadData);
         } catch(NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | InvalidKeySpecException ex) {
-
             logger.error("|-- Error while encrypting data - "+ex.getMessage(), ex);
         }
     }
