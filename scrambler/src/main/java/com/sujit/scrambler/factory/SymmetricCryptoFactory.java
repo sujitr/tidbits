@@ -2,6 +2,7 @@ package com.sujit.scrambler.factory;
 
 import com.sujit.scrambler.electives.CryptoChoices;
 import com.sujit.scrambler.electives.SymmetricCryptoChoices;
+import com.sujit.scrambler.engines.CbcAESEngine;
 import com.sujit.scrambler.engines.CryptoEngine;
 import com.sujit.scrambler.engines.SimpleAESEngine;
 
@@ -17,6 +18,8 @@ public class SymmetricCryptoFactory extends CryptoFactory {
                 symmetricEngine = new SimpleAESEngine();
                 break;
             case AES_CBC :
+            	symmetricEngine = new CbcAESEngine();
+            	break;
             case AES_CTR :
             case AES_GCM :
             case AES_CCM :
