@@ -34,6 +34,8 @@ public class SimpleTest {
         CryptoFactory factory = CryptoFactory.getCryptoFactory(CryptoArchitecture.SYMMETRIC);
         CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_DEFAULT);  
         String plainTextKey = "Z7eT12HwqBnW37hY"; // testing with 16 byte key
+        
+        // configure the encryption engine
         engine.configEncrypt(plainTextKey.toCharArray());
         
         // Create temporary files for testing
@@ -45,28 +47,32 @@ public class SimpleTest {
         FileUtils.writeStringToFile(testFile, "hello world", "ISO-8859-1");
         logger.debug("Wrote to temporary file, with contents '{}' ", FileUtils.readFileToString(testFile,"ISO-8859-1"));
         
+        // create streams from the files, to be used for encryption engine
         FileInputStream in = FileUtils.openInputStream(testFile);
         FileOutputStream out = FileUtils.openOutputStream(encryptedFile);
         
+        // encrypt the data
         engine.encrypt(in,out);
-        
         in.close(); out.close();
         logger.debug("Encrypted file is having content as '{}' ", FileUtils.readFileToString(encryptedFile,"ISO-8859-1"));
-        
+
+        // configure the decryption engine        
         engine.configDecrypt(plainTextKey.toCharArray());
         
+        // create streams from the files, to be used for decryption engine
         FileInputStream in2 = FileUtils.openInputStream(encryptedFile);
         FileOutputStream out2 = FileUtils.openOutputStream(decryptedFile);
         
+        // decrypt the data
         engine.decrypt(in2,out2);
-        
         in2.close(); out2.close();
         logger.debug("Decrypted file content is '{}' ", FileUtils.readFileToString(decryptedFile,"ISO-8859-1"));
+        
+        // comparing the original input file with decrypted file
         logger.debug("comparing the input file with decrypted file...");
         BufferedInputStream str1 = new BufferedInputStream(new FileInputStream(testFile));
         BufferedInputStream str2 = new BufferedInputStream(new FileInputStream(decryptedFile));
         assertTrue(FileCompare.findDifference(str1 ,str2));
-        
         str1.close();str2.close();
     }
 }
