@@ -23,9 +23,9 @@ import org.apache.logging.log4j.Logger;
 
 import static org.junit.Assert.assertTrue;
 
-public class CBCAESTest {
+public class CbcAESTest {
 	
-	private final static Logger logger = LogManager.getLogger(CBCAESTest.class.getName());
+	private final static Logger logger = LogManager.getLogger(CbcAESTest.class.getName());
     
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();

@@ -22,9 +22,9 @@ import org.apache.logging.log4j.Logger;
 
 import static org.junit.Assert.assertTrue;
 
-public class SimpleTest {
+public class DefaultAESTest {
 	
-	private final static Logger logger = LogManager.getLogger(SimpleTest.class.getName());
+	private final static Logger logger = LogManager.getLogger(DefaultAESTest.class.getName());
     
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
