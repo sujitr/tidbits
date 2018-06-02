@@ -14,7 +14,8 @@ Using this you can bypass the email sniffers typically used at any organization 
 Make sure your key strength is relatively strong and possible AES superiority over time.
 
 ## Future Improvements
-Have to move towards 32 byte (256 bit) key based AES standard.
+1. Have to move towards 32 byte (256 bit) key based AES standard.
+2. Use dependency injection to configure the key size(s) at runtime (128 bit or 256 bit)
 
 #### References
 1. [Veracode Article](https://www.veracode.com/blog/research/encryption-and-decryption-java-cryptography)

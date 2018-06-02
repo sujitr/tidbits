@@ -36,7 +36,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     private Cipher eCipher;
     
     private final int AES_KEY_SIZE;     // derived key length
-    private final int SALT_SIZE;        // should bea atleast 64 bits
+    private final int SALT_SIZE;        // should be atleast 64 bits
     private final int IV_SIZE;          // initialization vector, should be atleast 96 bits
     private final int TAG_BIT_LENGTH;
     private final int ITERATION_COUNT;  // iteration count anything greater than 12288
@@ -46,7 +46,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     
     public GaloisCounterAESEngine() {
         aadData = getRandomString(50).getBytes();
-        AES_KEY_SIZE = 256;
+        AES_KEY_SIZE = 128;
         SALT_SIZE = 64;
         IV_SIZE = 96;
         TAG_BIT_LENGTH = 128;
@@ -96,13 +96,12 @@ public class GaloisCounterAESEngine implements CryptoEngine {
             eCipher = Cipher.getInstance("AES/GCM/PKCS5Padding"); 
             eCipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParamSpec, new SecureRandom()); 
             eCipher.updateAAD(aadData);
+            initVectorString = Hex.encodeHexString(iv);
+        	saltString = Hex.encodeHexString(salt);
             logger.info("|-- Configuration for GCM encryption engine complete. Please make a note of generated 'Salt' and 'IV' values.");
         } catch(NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | InvalidKeySpecException ex) {
             logger.error("|-- Error while configuring GCM engine - "+ex.getMessage(), ex);
-        } finally{
-        	initVectorString = Hex.encodeHexString(iv);
-        	saltString = Hex.encodeHexString(salt);
-        }
+        } 
     }
     
     @Override
@@ -129,10 +128,11 @@ public class GaloisCounterAESEngine implements CryptoEngine {
 		}
     }
     
-    /**
-     * Method to return the generated salt and iv values for encryption
-     */
-    public void getEncryptionParameters(){
-    	
-    }
+    public String getInitVector(){
+	    return initVectorString;
+	}
+	
+	public String getSaltString(){
+	    return saltString;
+	}
 }
