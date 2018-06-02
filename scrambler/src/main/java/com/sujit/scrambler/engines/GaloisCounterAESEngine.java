@@ -1,6 +1,7 @@
 package com.sujit.scrambler.engines;
 
 import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -8,9 +9,14 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.apache.commons.codec.binary.Base64InputStream;
+import org.apache.commons.codec.binary.Base64OutputStream;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidAlgorithmParameterException;
@@ -24,7 +30,8 @@ public class GaloisCounterAESEngine implements CryptoEngine {
 	
 	private final static Logger logger = LogManager.getLogger(GaloisCounterAESEngine.class.getName());
     
-    private String initVector;
+    private String initVectorString;
+    private String saltString;
     private Cipher dCipher;
     private Cipher eCipher;
     
@@ -56,11 +63,13 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     
     @Override
     public void configDecrypt(char[] plainTextKey, String... otherParams){
-        
+        String suppliedInitVector = otherParams[0];
+        String suppliedSalt = otherParams[1];
     }
     
     @Override
     public void configEncrypt(char[] plainTextKey){
+    	logger.info("|-- Configuring GCM encryption engine...");
         // Generating salt
         byte[] salt = new byte[SALT_SIZE] ;
         SecureRandom secRandom = new SecureRandom() ;
@@ -75,7 +84,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
 	     * Generating key based on salt and plainTextKey.
 	     * This is basically a PBKDF2 (Password based key derivation function). 
 	     * 
-	     * Encryption is then performed with that generated key and initilaization vector (IV).
+	     * Encryption is then performed with that generated key and initialization vector (IV).
 	     */
         SecretKey secretKey = null ; 
         try {
@@ -87,22 +96,43 @@ public class GaloisCounterAESEngine implements CryptoEngine {
             eCipher = Cipher.getInstance("AES/GCM/PKCS5Padding"); 
             eCipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParamSpec, new SecureRandom()); 
             eCipher.updateAAD(aadData);
+            logger.info("|-- Configuration for GCM encryption engine complete. Please make a note of generated 'Salt' and 'IV' values.");
         } catch(NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | InvalidKeySpecException ex) {
-
-            logger.error("|-- Error while encrypting data - "+ex.getMessage(), ex);
+            logger.error("|-- Error while configuring GCM engine - "+ex.getMessage(), ex);
+        } finally{
+        	initVectorString = Hex.encodeHexString(iv);
+        	saltString = Hex.encodeHexString(salt);
         }
     }
     
     @Override
     public void encrypt(InputStream in, OutputStream out) {
-        
+    	try (Base64OutputStream encryptedStream = new Base64OutputStream(out);
+    			CipherInputStream cin = new CipherInputStream(in, eCipher)) {
+    		logger.info("encrypting....");
+    		IOUtils.copy(cin, encryptedStream);
+    		encryptedStream.flush();
+    		logger.info("encryption of streams complete");
+    	} catch (IOException e) {
+    		logger.error("error while encrypting streams {}", e);
+		}
     }
     
     @Override
 	public void decrypt(InputStream encryptedStream, OutputStream out) {
-    
+    	try(CipherInputStream cin = new CipherInputStream(new Base64InputStream(encryptedStream), dCipher);) { 
+    		logger.info("decrypting....");
+    		IOUtils.copy(cin,out);
+    		logger.info("decryption of streams complete.");
+    	} catch (IOException e) {
+    		logger.error("error while decrypting streams {}", e);
+		}
     }
     
-    
-
+    /**
+     * Method to return the generated salt and iv values for encryption
+     */
+    public void getEncryptionParameters(){
+    	
+    }
 }
