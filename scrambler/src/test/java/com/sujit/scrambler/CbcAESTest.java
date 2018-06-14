@@ -23,6 +23,9 @@ import org.apache.logging.log4j.Logger;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Test class for CbcAESEngine.java
+ */
 public class CbcAESTest {
 	
 	private final static Logger logger = LogManager.getLogger(CbcAESTest.class.getName());

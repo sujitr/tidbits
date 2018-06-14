@@ -22,6 +22,9 @@ import org.apache.logging.log4j.Logger;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Test class for SimpleAESEngine.java 
+ */
 public class DefaultAESTest {
 	
 	private final static Logger logger = LogManager.getLogger(DefaultAESTest.class.getName());
