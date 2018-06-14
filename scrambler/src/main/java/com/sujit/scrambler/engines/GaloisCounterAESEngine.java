@@ -13,6 +13,7 @@ import org.apache.commons.codec.binary.Base64InputStream;
 import org.apache.commons.codec.binary.Base64OutputStream;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.codec.DecoderException; 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,20 +33,21 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     
     private String initVectorString;
     private String saltString;
+    private String aadString;
     private Cipher dCipher;
     private Cipher eCipher;
+    private byte[] aadData;
     
     private final int AES_KEY_SIZE;     // derived key length
     private final int SALT_SIZE;        // should be atleast 64 bits
     private final int IV_SIZE;          // initialization vector, should be atleast 96 bits
     private final int TAG_BIT_LENGTH;
     private final int ITERATION_COUNT;  // iteration count anything greater than 12288
-    private final byte[] aadData;
+    
     
     private static final String seedString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     
     public GaloisCounterAESEngine() {
-        aadData = getRandomString(50).getBytes();
         AES_KEY_SIZE = 128;
         SALT_SIZE = 64;
         IV_SIZE = 96;
@@ -63,8 +65,29 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     
     @Override
     public void configDecrypt(char[] plainTextKey, String... otherParams){
+        logger.info("|-- Configuring GCM decryption engine...");
         String suppliedInitVector = otherParams[0];
         String suppliedSalt = otherParams[1];
+        String suppliedAAD = otherParams[2];
+        byte[] salt = null;
+		byte[] iv = null; 
+		byte[] aad = null;
+		try {
+		    salt = Hex.decodeHex(suppliedSalt.toCharArray());
+		    iv = Hex.decodeHex(suppliedInitVector.toCharArray()); 
+		    aad = Hex.decodeHex(suppliedAAD.toCharArray());
+		    KeySpec spec = new PBEKeySpec(plainTextKey, salt, ITERATION_COUNT, AES_KEY_SIZE * 8);
+    	    SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+    	    SecretKey tempSecret = factory.generateSecret(spec);
+    	    SecretKey secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES"); 
+    	    GCMParameterSpec gcmParamSpec = new GCMParameterSpec(TAG_BIT_LENGTH, iv) ;
+    	    dCipher = Cipher.getInstance("AES/GCM/PKCS5Padding"); 
+            dCipher.init(Cipher.DECRYPT_MODE, secretKey, gcmParamSpec, new SecureRandom()); 
+            dCipher.updateAAD(aadData);
+		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException| DecoderException | InvalidAlgorithmParameterException e) {  
+			logger.error("|-- Error while configuring decryption cipher  - " + e.getMessage(), e); 
+	    }
+        
     }
     
     @Override
@@ -79,6 +102,9 @@ public class GaloisCounterAESEngine implements CryptoEngine {
         byte[] iv = new byte[IV_SIZE];
 	    SecureRandom random = new SecureRandom();
 	    random.nextBytes(iv);
+	    
+	    // Generating AAD
+	    aadData = getRandomString(50).getBytes();
         
 	    /* 
 	     * Generating key based on salt and plainTextKey.
@@ -98,7 +124,8 @@ public class GaloisCounterAESEngine implements CryptoEngine {
             eCipher.updateAAD(aadData);
             initVectorString = Hex.encodeHexString(iv);
         	saltString = Hex.encodeHexString(salt);
-            logger.info("|-- Configuration for GCM encryption engine complete. Please make a note of generated 'Salt' and 'IV' values.");
+        	aadString = Hex.encodeHexString(aadData);
+            logger.info("|-- Configuration for GCM encryption engine complete. Please make a note of generated 'Salt', 'IV' & 'AAD' values.");
         } catch(NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | InvalidKeySpecException ex) {
             logger.error("|-- Error while configuring GCM engine - "+ex.getMessage(), ex);
         } 
