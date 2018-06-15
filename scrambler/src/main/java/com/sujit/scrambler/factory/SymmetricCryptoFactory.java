@@ -3,6 +3,7 @@ package com.sujit.scrambler.factory;
 import com.sujit.scrambler.electives.CryptoChoices;
 import com.sujit.scrambler.electives.SymmetricCryptoChoices;
 import com.sujit.scrambler.engines.CbcAESEngine;
+import com.sujit.scrambler.engines.GaloisCounterAESEngine;
 import com.sujit.scrambler.engines.CryptoEngine;
 import com.sujit.scrambler.engines.SimpleAESEngine;
 
@@ -22,6 +23,8 @@ public class SymmetricCryptoFactory extends CryptoFactory {
             	break;
             case AES_CTR :
             case AES_GCM :
+                symmetricEngine = new GaloisCounterAESEngine();
+            	break;
             case AES_CCM :
             default :
                 System.out.println("No such product available in this factory"); 

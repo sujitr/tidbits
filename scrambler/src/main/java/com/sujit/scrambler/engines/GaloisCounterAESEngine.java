@@ -48,7 +48,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     private static final String seedString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     
     public GaloisCounterAESEngine() {
-        AES_KEY_SIZE = 128;
+        AES_KEY_SIZE = 256;
         SALT_SIZE = 64;
         IV_SIZE = 96;
         TAG_BIT_LENGTH = 128;
@@ -161,5 +161,9 @@ public class GaloisCounterAESEngine implements CryptoEngine {
 	
 	public String getSaltString(){
 	    return saltString;
+	}
+	
+	public String getAadString(){
+	    return aadString; 
 	}
 }
