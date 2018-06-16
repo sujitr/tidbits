@@ -34,10 +34,10 @@ public class GcmAESTest {
     public TemporaryFolder tempFolder = new TemporaryFolder();
     
     @Test
-    public void testGaloisCounterAESFileScrambleWith32ByteKey() throws IOException {
+    public void testGaloisCounterAESFileScrambleWith16ByteKey() throws IOException {
         CryptoFactory factory = CryptoFactory.getCryptoFactory(CryptoArchitecture.SYMMETRIC);
         CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_GCM);  
-        String plainTextKey = "Z7eT12HwqBnW37hYZ7eT12HwqBnW37hY"; // testing with 32 byte key
+        String plainTextKey = "Z7eT12HwqBnW37hY"; // testing with 16 byte key
         
         // configure the encryption engine
         engine.configEncrypt(plainTextKey.toCharArray());
@@ -70,7 +70,7 @@ public class GcmAESTest {
         logger.debug("Encrypted file is having content as '{}' ", FileUtils.readFileToString(encryptedFile,"ISO-8859-1"));
 
         // configure the decryption engine        
-        engine.configDecrypt(plainTextKey.toCharArray(), saltString, initVectorString, aadString);
+        engine.configDecrypt(plainTextKey.toCharArray(), initVectorString, saltString, aadString);
         
         // create streams from the files, to be used for decryption engine
         FileInputStream in2 = FileUtils.openInputStream(encryptedFile);

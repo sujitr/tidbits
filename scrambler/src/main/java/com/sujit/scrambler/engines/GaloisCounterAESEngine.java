@@ -48,7 +48,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     private static final String seedString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     
     public GaloisCounterAESEngine() {
-        AES_KEY_SIZE = 256;
+        AES_KEY_SIZE = 128;
         SALT_SIZE = 64;
         IV_SIZE = 96;
         TAG_BIT_LENGTH = 128;
@@ -76,7 +76,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
 		    salt = Hex.decodeHex(suppliedSalt.toCharArray());
 		    iv = Hex.decodeHex(suppliedInitVector.toCharArray()); 
 		    aad = Hex.decodeHex(suppliedAAD.toCharArray());
-		    KeySpec spec = new PBEKeySpec(plainTextKey, salt, ITERATION_COUNT, AES_KEY_SIZE * 8);
+		    KeySpec spec = new PBEKeySpec(plainTextKey, salt, ITERATION_COUNT, AES_KEY_SIZE);
     	    SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
     	    SecretKey tempSecret = factory.generateSecret(spec);
     	    SecretKey secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES"); 
@@ -114,7 +114,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
 	     */
         SecretKey secretKey = null ; 
         try {
-    	    KeySpec spec = new PBEKeySpec(plainTextKey, salt, ITERATION_COUNT, AES_KEY_SIZE * 8);
+    	    KeySpec spec = new PBEKeySpec(plainTextKey, salt, ITERATION_COUNT, AES_KEY_SIZE);
     	    SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
     	    SecretKey tempSecret = factory.generateSecret(spec);
     	    secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES");
