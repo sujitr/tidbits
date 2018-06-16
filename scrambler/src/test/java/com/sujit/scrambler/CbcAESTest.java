@@ -36,7 +36,7 @@ public class CbcAESTest {
     @Test
     public void testCBCAESFileScrambleWith16ByteKey() throws IOException {
         CryptoFactory factory = CryptoFactory.getCryptoFactory(CryptoArchitecture.SYMMETRIC);
-        CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_CBC);  
+        CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_CBC_128);  
         String plainTextKey = "Z7eT12HwqBnW37hY"; // testing with 16 byte key
         
         // configure the encryption engine

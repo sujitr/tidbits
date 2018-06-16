@@ -36,7 +36,7 @@ public class GcmAESTest {
     @Test
     public void testGaloisCounterAESFileScrambleWith16ByteKey() throws IOException {
         CryptoFactory factory = CryptoFactory.getCryptoFactory(CryptoArchitecture.SYMMETRIC);
-        CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_GCM);  
+        CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_GCM_128);  
         String plainTextKey = "Z7eT12HwqBnW37hY"; // testing with 16 byte key
         
         // configure the encryption engine

@@ -31,6 +31,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.sujit.scrambler.electives.KeySizes;
+
 /**
  * Stronger implementation of AES with CBC cipher mode and PKCS5Padding.
  * This approach provides decent enough security and guards against rainbow attacks.
@@ -53,8 +55,9 @@ public class CbcAESEngine implements CryptoEngine {
     private final int ITERATION_COUNT;  // iteration count anything greater than 12288
     
     
-    public CbcAESEngine(){
-        AES_KEY_SIZE = 128;
+    public CbcAESEngine(KeySizes k){
+    	super();
+        AES_KEY_SIZE = k.getBitLenth();
         SALT_SIZE = 64;
         ITERATION_COUNT = 65536;
     }

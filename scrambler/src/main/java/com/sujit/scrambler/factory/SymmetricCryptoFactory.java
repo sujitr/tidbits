@@ -1,6 +1,7 @@
 package com.sujit.scrambler.factory;
 
 import com.sujit.scrambler.electives.CryptoChoices;
+import com.sujit.scrambler.electives.KeySizes;
 import com.sujit.scrambler.electives.SymmetricCryptoChoices;
 import com.sujit.scrambler.engines.CbcAESEngine;
 import com.sujit.scrambler.engines.GaloisCounterAESEngine;
@@ -15,15 +16,15 @@ public class SymmetricCryptoFactory extends CryptoFactory {
     public  CryptoEngine createCryptoEngine(CryptoChoices type) {
         CryptoEngine symmetricEngine = null;
         switch((SymmetricCryptoChoices)type) { 
-            case AES_DEFAULT :
+            case AES_DEFAULT:
                 symmetricEngine = new SimpleAESEngine();
                 break;
-            case AES_CBC :
-            	symmetricEngine = new CbcAESEngine();
+            case AES_CBC_128 :
+            	symmetricEngine = new CbcAESEngine(KeySizes.BIT_16);
             	break;
             case AES_CTR :
-            case AES_GCM :
-                symmetricEngine = new GaloisCounterAESEngine();
+            case AES_GCM_128 :
+                symmetricEngine = new GaloisCounterAESEngine(KeySizes.BIT_16);
             	break;
             case AES_CCM :
             default :

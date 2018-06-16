@@ -17,6 +17,8 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.sujit.scrambler.electives.KeySizes;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -47,8 +49,9 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     
     private static final String seedString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     
-    public GaloisCounterAESEngine() {
-        AES_KEY_SIZE = 128;
+    public GaloisCounterAESEngine(KeySizes k) {
+    	super();
+        AES_KEY_SIZE = k.getBitLenth();
         SALT_SIZE = 64;
         IV_SIZE = 96;
         TAG_BIT_LENGTH = 128;
