@@ -34,10 +34,17 @@ public class GcmAESTest {
     public TemporaryFolder tempFolder = new TemporaryFolder();
     
     @Test
-    public void testGaloisCounterAESFileScrambleWith16ByteKey() throws IOException {
+    /**
+     * Test to check GCM encryption and decryption. Password length is not important here as 
+     * the password will be expanded to fit engine key length size after applying 
+     * salt and iteration count. 
+     * 
+     * @throws IOException
+     */
+    public void testGaloisCounterAESFileScramble_128BitEngine() throws IOException {
         CryptoFactory factory = CryptoFactory.getCryptoFactory(CryptoArchitecture.SYMMETRIC);
         CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_GCM_128);  
-        String plainTextKey = "Z7eT12HwqBnW37hY"; // testing with 16 byte key
+        String plainTextKey = "mypass"; 
         
         // configure the encryption engine
         engine.configEncrypt(plainTextKey.toCharArray());

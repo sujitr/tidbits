@@ -23,7 +23,10 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Simple AES implementation, without any explicit cipher mode for blocks, 
- * and without any explicit padding declaration.
+ * without any explicit padding declaration, and without PBE KeySpec for
+ * key length conformity. Provided key is directly used to generate AES key, so 
+ * length of the provided key HAS TO BE either 16 byte or 32 byte.
+ * 
  * By default EBC cipher mode is used, along with PKCS5Padding, which is inherently 
  * susceptible for replay attacks or known plaintext attacks. Please use with discretion.
  * 
@@ -49,7 +52,7 @@ public class SimpleAESEngine implements CryptoEngine {
 			Arrays.fill(plainTextKey, '\u0000'); // clear sensitive data
 			dCipher.init(Cipher.DECRYPT_MODE, secretKey);
 		}catch(InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e){
-		    logger.error("Error in configuring decryption {} ", e);
+		    logger.error("|- Error in configuring decryption {} ", e.getMessage(), e);
 		}
 
     }
@@ -61,7 +64,7 @@ public class SimpleAESEngine implements CryptoEngine {
 			SecretKey secretKey = new SecretKeySpec(toBytes(plainTextKey), "AES");
 			eCipher.init(Cipher.ENCRYPT_MODE, secretKey);
 		}catch(InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e){
-		    logger.error("Error in configuring encryption {} ", e);
+		    logger.error("|- Error in configuring encryption {} ",e.getMessage(), e);
 		}
     }
     

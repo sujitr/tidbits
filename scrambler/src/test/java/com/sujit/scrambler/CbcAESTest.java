@@ -34,10 +34,10 @@ public class CbcAESTest {
     public TemporaryFolder tempFolder = new TemporaryFolder();
     
     @Test
-    public void testCBCAESFileScrambleWith16ByteKey() throws IOException {
+    public void testCBCAESFileScramble_128BitEngine() throws IOException {
         CryptoFactory factory = CryptoFactory.getCryptoFactory(CryptoArchitecture.SYMMETRIC);
         CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_CBC_128);  
-        String plainTextKey = "Z7eT12HwqBnW37hY"; // testing with 16 byte key
+        String plainTextKey = "test_password"; 
         
         // configure the encryption engine
         engine.configEncrypt(plainTextKey.toCharArray());

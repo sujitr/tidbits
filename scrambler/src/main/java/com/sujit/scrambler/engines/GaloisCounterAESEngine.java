@@ -28,7 +28,17 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.Arrays;
 
+/**
+ * Strongest implementation of AES with GCM cipher mode and PKCS5Padding.
+ * GCM uses Authenticated Encryption with Associated Data (AEAD) mode for better protection
+ * from range of attacks. Advisable to use with 256 bit (32 bytes) key.
+ * Please make sure that not more than a few plaintexts are encrypted with same Key/IV pair.
+ * 
+ * @author Sujit
+ * @since 2018
+ */
 public class GaloisCounterAESEngine implements CryptoEngine {
 	
 	private final static Logger logger = LogManager.getLogger(GaloisCounterAESEngine.class.getName());
@@ -40,9 +50,9 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     private Cipher eCipher;
     private byte[] aadData;
     
-    private final int AES_KEY_SIZE;     // derived key length
-    private final int SALT_SIZE;        // should be atleast 64 bits
-    private final int IV_SIZE;          // initialization vector, should be atleast 96 bits
+    private final int AES_KEY_SIZE;     		// derived key length
+    private final int SALT_SIZE;        			// should be atleast 64 bits
+    private final int IV_SIZE;          				// initialization vector, should be atleast 96 bits
     private final int TAG_BIT_LENGTH;
     private final int ITERATION_COUNT;  // iteration count anything greater than 12288
     
@@ -87,8 +97,10 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     	    dCipher = Cipher.getInstance("AES/GCM/PKCS5Padding"); 
             dCipher.init(Cipher.DECRYPT_MODE, secretKey, gcmParamSpec, new SecureRandom()); 
             dCipher.updateAAD(aadData);
+            Arrays.fill(plainTextKey, '\u0000'); // clear sensitive data
+            logger.info("|-- Configuration for GCM decryption engine complete.");
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException| DecoderException | InvalidAlgorithmParameterException e) {  
-			logger.error("|-- Error while configuring decryption cipher  - " + e.getMessage(), e); 
+			logger.error("|-- Error while configuring decryption cipher  - {}",e.getMessage(), e); 
 	    }
         
     }
@@ -128,9 +140,10 @@ public class GaloisCounterAESEngine implements CryptoEngine {
             initVectorString = Hex.encodeHexString(iv);
         	saltString = Hex.encodeHexString(salt);
         	aadString = Hex.encodeHexString(aadData);
+        	Arrays.fill(plainTextKey, '\u0000'); // clear sensitive data
             logger.info("|-- Configuration for GCM encryption engine complete. Please make a note of generated 'Salt', 'IV' & 'AAD' values.");
         } catch(NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | InvalidKeySpecException ex) {
-            logger.error("|-- Error while configuring GCM engine - "+ex.getMessage(), ex);
+            logger.error("|-- Error while configuring GCM engine - {}",ex.getMessage(), ex);
         } 
     }
     
@@ -143,7 +156,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     		encryptedStream.flush();
     		logger.info("encryption of streams complete");
     	} catch (IOException e) {
-    		logger.error("error while encrypting streams {}", e);
+    		logger.error("|- Error while encrypting streams - {}",e.getMessage(), e);
 		}
     }
     
@@ -154,7 +167,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     		IOUtils.copy(cin,out);
     		logger.info("decryption of streams complete.");
     	} catch (IOException e) {
-    		logger.error("error while decrypting streams {}", e);
+    		logger.error("| - Error while decrypting streams - {}",e.getMessage(), e);
 		}
     }
     

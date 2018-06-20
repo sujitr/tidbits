@@ -21,6 +21,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.Arrays;
 import java.security.AlgorithmParameters;
 import javax.crypto.spec.IvParameterSpec; 
 
@@ -39,7 +40,7 @@ import com.sujit.scrambler.electives.KeySizes;
  * Please do not use same password key frequently.
  * 
  * @author Sujit
- *
+ * @since 2018
  */
 public class CbcAESEngine implements CryptoEngine {
     
@@ -50,8 +51,8 @@ public class CbcAESEngine implements CryptoEngine {
     private Cipher dCipher;
     private Cipher eCipher;
     
-    private final int AES_KEY_SIZE;     // derived key length
-    private final int SALT_SIZE;        // should be atleast 64 bits
+    private final int AES_KEY_SIZE;     		// derived key length
+    private final int SALT_SIZE;        			// should be at-least 64 bits
     private final int ITERATION_COUNT;  // iteration count anything greater than 12288
     
     
@@ -77,8 +78,9 @@ public class CbcAESEngine implements CryptoEngine {
     	    SecretKey secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES");
     	    dCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
     	    dCipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
+    	    Arrays.fill(key, '\u0000'); // clear sensitive data
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException| DecoderException | InvalidAlgorithmParameterException e) {  
-			logger.error("|-- Error while configuring decryption cipher  - " + e.getMessage(), e); 
+			logger.error("|-- Error while configuring decryption cipher  - {}",e.getMessage(), e); 
 	    }
 	}
 	
@@ -105,9 +107,10 @@ public class CbcAESEngine implements CryptoEngine {
             initVector = params.getParameterSpec(IvParameterSpec.class).getIV();
             initVectorString = Hex.encodeHexString(initVector);
             saltString = Hex.encodeHexString(salt);
+            Arrays.fill(key, '\u0000'); // clear sensitive data
             logger.debug("|-- encrypt configuration complete");
 	    } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException| InvalidParameterSpecException  e) {
-	        logger.error("|-- Error while configuring encryption cipher  - " + e.getMessage(), e); 
+	        logger.error("|-- Error while configuring encryption cipher  - {}",e.getMessage(), e); 
 	    }
 
 	}
@@ -119,7 +122,7 @@ public class CbcAESEngine implements CryptoEngine {
     		IOUtils.copy(cin,out);
     		logger.info("decryption of streams complete.");
     	} catch (IOException e) {
-    		logger.error("error while decrypting streams {}", e);
+    		logger.error("|- Error while decrypting streams - {}", e.getMessage(), e);
 		}
 	}
 
@@ -131,7 +134,7 @@ public class CbcAESEngine implements CryptoEngine {
 	    	IOUtils.copy(cin, b64os);
 	    	logger.debug("encryption of streams complete");
 	    }catch (IOException e) { 
-            logger.error("error while encrypting streams {}", e);
+            logger.error("|- Error while encrypting streams - {}", e.getMessage(), e);
         } 
 	}
 	
