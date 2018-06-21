@@ -18,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.sujit.scrambler.electives.KeySizes;
+import com.sujit.scrambler.utils.CryptoUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -89,10 +90,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
 		    salt = Hex.decodeHex(suppliedSalt.toCharArray());
 		    iv = Hex.decodeHex(suppliedInitVector.toCharArray()); 
 		    aad = Hex.decodeHex(suppliedAAD.toCharArray());
-		    KeySpec spec = new PBEKeySpec(plainTextKey, salt, ITERATION_COUNT, AES_KEY_SIZE);
-    	    SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-    	    SecretKey tempSecret = factory.generateSecret(spec);
-    	    SecretKey secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES"); 
+    	    SecretKey secretKey = CryptoUtils.generateSecretKey_AES(plainTextKey, salt, ITERATION_COUNT, AES_KEY_SIZE);
     	    GCMParameterSpec gcmParamSpec = new GCMParameterSpec(TAG_BIT_LENGTH, iv) ;
     	    dCipher = Cipher.getInstance("AES/GCM/PKCS5Padding"); 
             dCipher.init(Cipher.DECRYPT_MODE, secretKey, gcmParamSpec, new SecureRandom()); 
@@ -126,13 +124,9 @@ public class GaloisCounterAESEngine implements CryptoEngine {
 	     * This is basically a PBKDF2 (Password based key derivation function). 
 	     * 
 	     * Encryption is then performed with that generated key and initialization vector (IV).
-	     */
-        SecretKey secretKey = null ; 
+	     */ 
         try {
-    	    KeySpec spec = new PBEKeySpec(plainTextKey, salt, ITERATION_COUNT, AES_KEY_SIZE);
-    	    SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-    	    SecretKey tempSecret = factory.generateSecret(spec);
-    	    secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES");
+        	SecretKey secretKey = CryptoUtils.generateSecretKey_AES(plainTextKey, salt, ITERATION_COUNT, AES_KEY_SIZE);
     	    GCMParameterSpec gcmParamSpec = new GCMParameterSpec(TAG_BIT_LENGTH, iv) ;
             eCipher = Cipher.getInstance("AES/GCM/PKCS5Padding"); 
             eCipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParamSpec, new SecureRandom()); 

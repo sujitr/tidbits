@@ -21,6 +21,8 @@ import org.apache.commons.codec.binary.Base64InputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.sujit.scrambler.utils.CryptoUtils;
+
 /**
  * Simple AES implementation, without any explicit cipher mode for blocks, 
  * without any explicit padding declaration, and without PBE KeySpec for
@@ -48,7 +50,7 @@ public class SimpleAESEngine implements CryptoEngine {
     public void configDecrypt(char[] plainTextKey, String... otherData){
         try {
 			dCipher = Cipher.getInstance("AES");
-			SecretKey secretKey = new SecretKeySpec(toBytes(plainTextKey), "AES");
+			SecretKey secretKey = new SecretKeySpec(CryptoUtils.toBytes(plainTextKey), "AES");
 			Arrays.fill(plainTextKey, '\u0000'); // clear sensitive data
 			dCipher.init(Cipher.DECRYPT_MODE, secretKey);
 		}catch(InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e){
@@ -61,7 +63,7 @@ public class SimpleAESEngine implements CryptoEngine {
     public void configEncrypt(char[] plainTextKey) {
         try {
 			eCipher = Cipher.getInstance("AES");
-			SecretKey secretKey = new SecretKeySpec(toBytes(plainTextKey), "AES");
+			SecretKey secretKey = new SecretKeySpec(CryptoUtils.toBytes(plainTextKey), "AES");
 			eCipher.init(Cipher.ENCRYPT_MODE, secretKey);
 		}catch(InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e){
 		    logger.error("|- Error in configuring encryption {} ",e.getMessage(), e);

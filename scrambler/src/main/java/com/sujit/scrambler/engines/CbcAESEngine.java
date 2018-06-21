@@ -33,6 +33,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.sujit.scrambler.electives.KeySizes;
+import com.sujit.scrambler.utils.CryptoUtils;
 
 /**
  * Stronger implementation of AES with CBC cipher mode and PKCS5Padding.
@@ -72,10 +73,7 @@ public class CbcAESEngine implements CryptoEngine {
 		try {
 		    salt = Hex.decodeHex(saltString.toCharArray());
 		    iv = Hex.decodeHex(initVectorString.toCharArray()); 
-		    SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-		    KeySpec spec = new PBEKeySpec(key, salt, ITERATION_COUNT, AES_KEY_SIZE);
-		    SecretKey tempSecret = factory.generateSecret(spec);
-    	    SecretKey secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES");
+		    SecretKey secretKey = CryptoUtils.generateSecretKey_AES(key, salt, ITERATION_COUNT, AES_KEY_SIZE);
     	    dCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
     	    dCipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
     	    Arrays.fill(key, '\u0000'); // clear sensitive data
@@ -96,10 +94,7 @@ public class CbcAESEngine implements CryptoEngine {
         
         try {
 	        /* Derive the key, given password and salt */
-    	    SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-    	    KeySpec spec = new PBEKeySpec(key, salt, ITERATION_COUNT, AES_KEY_SIZE);
-    	    SecretKey tempSecret = factory.generateSecret(spec);
-    	    SecretKey secretKey = new SecretKeySpec(tempSecret.getEncoded(),"AES");
+    	    SecretKey secretKey = CryptoUtils.generateSecretKey_AES(key, salt, ITERATION_COUNT, AES_KEY_SIZE);
     	    /* Initialize the encryption cipher object */
             eCipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); 
             eCipher.init(Cipher.ENCRYPT_MODE, secretKey);
