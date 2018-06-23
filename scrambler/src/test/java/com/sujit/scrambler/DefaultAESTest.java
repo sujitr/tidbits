@@ -10,11 +10,13 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Assumptions;
 
 import com.sujit.scrambler.electives.CryptoArchitecture;
 import com.sujit.scrambler.electives.SymmetricCryptoChoices;
 import com.sujit.scrambler.engines.CryptoEngine;
 import com.sujit.scrambler.factory.*;
+import com.sujit.scrambler.utils.CryptoUtils;
 import com.sujit.util.FileCompare;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,11 +35,23 @@ public class DefaultAESTest {
     public TemporaryFolder tempFolder = new TemporaryFolder();
     
     @Test
-    public void testSimpleAESFileScrambleWith16ByteKey() throws IOException {
-        CryptoFactory factory = CryptoFactory.getCryptoFactory(CryptoArchitecture.SYMMETRIC);
-        CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_DEFAULT);  
+    public void testSimpleAESFileScrambleWith16ByteKey() throws IOException { 
         String plainTextKey = "Z7eT12HwqBnW37hY"; // testing with 16 byte key
-        
+        simpleAESFileScramble(plainTextKey);
+    }
+    
+    @Test
+    public void testSimpleAESFileScrambleWith32ByteKey() throws IOException {
+        /* execute this test case only when there are no resctrictions exists on
+        the current system */
+        Assumptions.assumeTrue(!CryptoUtils.restrictedCryptography());
+        String plainTextKey = "Z7eT12HwqBnW37hYZ7eT12HwqBnW37hY"; // testing with 32 byte key
+        simpleAESFileScramble(plainTextKey);
+    }
+    
+    private void simpleAESFileScramble(String plainTextKey) throws IOException {
+        CryptoFactory factory = CryptoFactory.getCryptoFactory(CryptoArchitecture.SYMMETRIC);
+        CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_DEFAULT); 
         // configure the encryption engine
         engine.configEncrypt(plainTextKey.toCharArray());
         
@@ -47,7 +61,7 @@ public class DefaultAESTest {
         final File decryptedFile = tempFolder.newFile("decryptedFile.txt");
         
         // Write something to input temporary file
-        FileUtils.writeStringToFile(testFile, "hello world", "ISO-8859-1");
+        FileUtils.writeStringToFile(testFile, "hello world. Simple AES with "+ plainTextKey.length() +" byte key here.", "ISO-8859-1");
         logger.debug("Wrote to temporary file, with contents '{}' ", FileUtils.readFileToString(testFile,"ISO-8859-1"));
         
         // create streams from the files, to be used for encryption engine

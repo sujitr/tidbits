@@ -10,12 +10,14 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Assumptions;
 
 import com.sujit.scrambler.electives.CryptoArchitecture;
 import com.sujit.scrambler.electives.SymmetricCryptoChoices;
 import com.sujit.scrambler.engines.GaloisCounterAESEngine;
 import com.sujit.scrambler.engines.CryptoEngine;
 import com.sujit.scrambler.factory.*;
+import com.sujit.scrambler.utils.CryptoUtils;
 import com.sujit.util.FileCompare;
 
 import org.apache.logging.log4j.LogManager;
@@ -42,8 +44,23 @@ public class GcmAESTest {
      * @throws IOException
      */
     public void testGaloisCounterAESFileScramble_128BitEngine() throws IOException {
+        logger.debug("Testing GCM AES with 128 bit key length...");
         CryptoFactory factory = CryptoFactory.getCryptoFactory(CryptoArchitecture.SYMMETRIC);
         CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_GCM_128);  
+        galoisCounterAESFileScramble(engine);
+    }
+    
+    public void testGaloisCounterAESFileScramble_256BitEngine() throws IOException {
+        /* execute this test case only when there are no resctrictions exists on
+        the current system */
+        Assumptions.assumeTrue(!CryptoUtils.restrictedCryptography());
+        logger.debug("Testing GCM AES with 256 bit key length...");
+        CryptoFactory factory = CryptoFactory.getCryptoFactory(CryptoArchitecture.SYMMETRIC);
+        CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_GCM_256);  
+        galoisCounterAESFileScramble(engine);
+    }
+    
+    private void galoisCounterAESFileScramble(CryptoEngine engine) throws IOException {
         String plainTextKey = "mypass"; 
         
         // configure the encryption engine

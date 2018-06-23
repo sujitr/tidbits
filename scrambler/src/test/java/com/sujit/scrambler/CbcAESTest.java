@@ -10,12 +10,14 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Assumptions;
 
 import com.sujit.scrambler.electives.CryptoArchitecture;
 import com.sujit.scrambler.electives.SymmetricCryptoChoices;
 import com.sujit.scrambler.engines.CbcAESEngine;
 import com.sujit.scrambler.engines.CryptoEngine;
 import com.sujit.scrambler.factory.*;
+import com.sujit.scrambler.utils.CryptoUtils;  
 import com.sujit.util.FileCompare;
 
 import org.apache.logging.log4j.LogManager;
@@ -35,8 +37,24 @@ public class CbcAESTest {
     
     @Test
     public void testCBCAESFileScramble_128BitEngine() throws IOException {
+        logger.debug("Testing CBC AES with 128 bit key length...");
         CryptoFactory factory = CryptoFactory.getCryptoFactory(CryptoArchitecture.SYMMETRIC);
         CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_CBC_128);  
+        cbcAESFileScramble(engine);
+    }
+    
+    @Test
+    public void testCBCAESFileScramble_256BitEngine() throws IOException {
+        /* execute this test case only when there are no resctrictions exists on
+        the current system */
+        Assumptions.assumeTrue(!CryptoUtils.restrictedCryptography());
+        logger.debug("Testing CBC AES with 256 bit key length...");
+        CryptoFactory factory = CryptoFactory.getCryptoFactory(CryptoArchitecture.SYMMETRIC);
+        CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_CBC_256);  
+        cbcAESFileScramble(engine);
+    }
+    
+    private void cbcAESFileScramble(CryptoEngine engine) throws IOException {
         String plainTextKey = "test_password"; 
         
         // configure the encryption engine

@@ -22,6 +22,9 @@ public class SymmetricCryptoFactory extends CryptoFactory {
             case AES_CBC_128 :
             	symmetricEngine = new CbcAESEngine(KeySizes.BIT_16);
             	break;
+            case AES_CBC_256 :
+            	symmetricEngine = new CbcAESEngine(KeySizes.BIT_32); 
+            	break;
             case AES_CTR :
             case AES_GCM_128 :
                 symmetricEngine = new GaloisCounterAESEngine(KeySizes.BIT_16);
