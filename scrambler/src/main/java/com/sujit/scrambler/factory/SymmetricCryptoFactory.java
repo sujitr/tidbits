@@ -26,6 +26,9 @@ public class SymmetricCryptoFactory extends CryptoFactory {
             case AES_GCM_128 :
                 symmetricEngine = new GaloisCounterAESEngine(KeySizes.BIT_16);
             	break;
+            case AES_GCM_256 :
+                symmetricEngine = new GaloisCounterAESEngine(KeySizes.BIT_32);
+            	break;
             case AES_CCM :
             default :
                 System.out.println("No such product available in this factory"); 
