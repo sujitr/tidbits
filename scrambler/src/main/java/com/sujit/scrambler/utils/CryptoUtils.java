@@ -8,6 +8,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 
+import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -23,7 +24,10 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class CryptoUtils {
 	/* Disabling instance creation and class extension */
-	private CryptoUtils() {}
+	private CryptoUtils() {
+		/* insurance in case the constructor is accidentally invoked from within the class */
+		throw new AssertionError("This class is not intended to be instantiated!");
+	}
 	
 	/**
 	 * Utility method to generate SecretKey from user provided password/passphrase. 
@@ -67,5 +71,27 @@ public class CryptoUtils {
         Arrays.fill(charBuffer.array(), '\u0000'); // clear sensitive data
         Arrays.fill(byteBuffer.array(), (byte) 0); // clear sensitive data
         return bytes;
+    }
+    
+    /**
+     * Determines if cryptography restrictions apply.
+     * Restrictions apply if the value of {@link Cipher#getMaxAllowedKeyLength(String)} returns a value 
+     * smaller than {@link Integer#MAX_VALUE} if there are any restrictions according to the JavaDoc of the method.
+     * This method is used with the transform <code>"AES/CBC/PKCS5Padding"</code> as this is an often 
+     * used algorithm that is <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#impl">
+     * an implementation requirement for Java SE</a>.
+     * 
+     * <a href="https://stackoverflow.com/questions/7953567/checking-if-unlimited-cryptography-is-available/7954769#7954769">
+     * Source of this method</a>
+     * 
+     * @return <code>true</code> if restrictions apply, <code>false</code> otherwise
+     */
+    public static boolean restrictedCryptography() {
+        try {
+            return Cipher.getMaxAllowedKeyLength("AES/CBC/PKCS5Padding") < Integer.MAX_VALUE;
+        } catch (final NoSuchAlgorithmException e) {
+            throw new IllegalStateException("The transform \"AES/CBC/PKCS5Padding\" is not available"
+            		+ " (the availability of this algorithm is mandatory for Java SE implementations)", e);
+        }
     }
 }
