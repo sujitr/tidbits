@@ -45,7 +45,7 @@ public class CbcAESTest {
     
     @Test
     public void testCBCAESFileScramble_256BitEngine() throws IOException {
-        /* execute this test case only when there are no resctrictions exists on
+        /* execute this test case only when there are no restrictions exists on
         the current system */
         Assumptions.assumeTrue(!CryptoUtils.restrictedCryptography());
         logger.debug("Testing CBC AES with 256 bit key length...");

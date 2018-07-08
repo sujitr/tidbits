@@ -42,7 +42,7 @@ public class DefaultAESTest {
     
     @Test
     public void testSimpleAESFileScrambleWith32ByteKey() throws IOException {
-        /* execute this test case only when there are no resctrictions exists on
+        /* execute this test case only when there are no restrictions exists on
         the current system */
         Assumptions.assumeTrue(!CryptoUtils.restrictedCryptography());
         String plainTextKey = "Z7eT12HwqBnW37hYZ7eT12HwqBnW37hY"; // testing with 32 byte key
