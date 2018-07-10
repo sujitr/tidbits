@@ -16,7 +16,7 @@ Make sure your key strength is relatively strong and possible AES superiority ov
 ## Future Improvements
 - [x] Have to move towards 32 byte (256 bit) key based AES standard.
 - [x] Use dependency injection to configure the key size(s) at runtime (128 bit or 256 bit)
-- [ ] Use an intercative console input system to use the scrambler library with ease (Most probably with Java Console)
+- [ ] Use an intertive console input system to use the scrambler library with ease (Most probably with Java Console)
 - [ ] Publish an API for those cases where access to console is not possible
 
 #### References
