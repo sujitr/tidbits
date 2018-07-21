@@ -52,10 +52,10 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     private byte[] aadData;
     
     private final int AES_KEY_SIZE;     		// derived key length
-    private final int SALT_SIZE;        			// should be atleast 64 bits
-    private final int IV_SIZE;          				// initialization vector, should be atleast 96 bits
+    private final int SALT_SIZE;        		// should be at least 64 bits
+    private final int IV_SIZE;          		// initialization vector, should be at least 96 bits
     private final int TAG_BIT_LENGTH;
-    private final int ITERATION_COUNT;  // iteration count anything greater than 12288
+    private final int ITERATION_COUNT;          // iteration count anything greater than 12288
     
     
     private static final String seedString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

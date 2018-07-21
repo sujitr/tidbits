@@ -25,8 +25,8 @@ public interface CryptoEngine {
      * vector as required.
      * 
      * @param key 
-     * 		plaintext key provided by the user to set up decryption
-     *  @param extraParameters
+     * 		    plaintext key provided by the user to set up decryption
+     * @param extraParameters
      *  	 	other extra parameters like salt and initialization vector as needed. This
      *  		is a varargs parameter enabling multiple param values. Please ensure
      *  		proper sequencing while reading them. Should match with sequence 
