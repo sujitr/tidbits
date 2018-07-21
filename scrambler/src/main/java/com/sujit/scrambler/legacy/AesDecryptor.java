@@ -1,4 +1,4 @@
-package com.sujit.scrambler;
+package com.sujit.scrambler.legacy;
 
 import java.io.BufferedReader;
 import java.io.File;

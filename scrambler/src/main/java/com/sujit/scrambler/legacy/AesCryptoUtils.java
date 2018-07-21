@@ -1,4 +1,4 @@
-package com.sujit.scrambler;
+package com.sujit.scrambler.legacy;
 
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;

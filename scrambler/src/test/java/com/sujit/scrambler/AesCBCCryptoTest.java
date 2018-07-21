@@ -1,6 +1,9 @@
 package com.sujit.scrambler;
 
 import org.junit.jupiter.api.Test;
+
+import com.sujit.scrambler.legacy.AesCryptoUtils;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 // import org.junit.jupiter.api.Disabled;

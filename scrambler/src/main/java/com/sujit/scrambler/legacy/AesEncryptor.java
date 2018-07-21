@@ -1,4 +1,4 @@
-package com.sujit.scrambler;
+package com.sujit.scrambler.legacy;
 
 import java.io.File;
 import java.io.FileInputStream;
