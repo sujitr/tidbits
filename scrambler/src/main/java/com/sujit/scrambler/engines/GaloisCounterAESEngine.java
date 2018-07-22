@@ -49,8 +49,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     private String aadString;
     private Cipher dCipher;
     private Cipher eCipher;
-    // private byte[] aadData;
-    
+
     private final int AES_KEY_SIZE;     		// derived key length
     private final int SALT_SIZE;        		// should be at least 64 bits
     private final int IV_SIZE;          		// initialization vector, should be at least 96 bits
