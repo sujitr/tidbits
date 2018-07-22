@@ -49,7 +49,9 @@ public class GcmAESTest {
         CryptoEngine engine = factory.createCryptoEngine(SymmetricCryptoChoices.AES_GCM_128);  
         galoisCounterAESFileScramble(engine);
     }
-    
+
+    @Test
+    // @Disabled
     public void testGaloisCounterAESFileScramble_256BitEngine() throws IOException {
         /* execute this test case only when there are no restrictions exists on
         the current system */

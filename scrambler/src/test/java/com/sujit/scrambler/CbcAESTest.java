@@ -44,6 +44,7 @@ public class CbcAESTest {
     }
     
     @Test
+    // @Disabled
     public void testCBCAESFileScramble_256BitEngine() throws IOException {
         /* execute this test case only when there are no restrictions exists on
         the current system */

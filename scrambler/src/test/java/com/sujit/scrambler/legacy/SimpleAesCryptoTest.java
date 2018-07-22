@@ -1,17 +1,11 @@
-package com.sujit.scrambler;
+package com.sujit.scrambler.legacy;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import com.sujit.scrambler.legacy.AesCryptoUtils;
-
-import static org.junit.jupiter.api.Assertions.*;    
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class SimpleAesCryptoTest {
