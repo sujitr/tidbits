@@ -49,7 +49,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     private String aadString;
     private Cipher dCipher;
     private Cipher eCipher;
-    private byte[] aadData;
+    // private byte[] aadData;
     
     private final int AES_KEY_SIZE;     		// derived key length
     private final int SALT_SIZE;        		// should be at least 64 bits
@@ -83,9 +83,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
         String suppliedInitVector = otherParams[0];
         String suppliedSalt = otherParams[1];
         String suppliedAAD = otherParams[2];
-        byte[] salt = null;
-		byte[] iv = null; 
-		byte[] aad = null;
+        byte[] salt = null, iv = null, aad = null;
 		try {
 		    salt = Hex.decodeHex(suppliedSalt.toCharArray());
 		    iv = Hex.decodeHex(suppliedInitVector.toCharArray()); 
@@ -94,7 +92,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     	    GCMParameterSpec gcmParamSpec = new GCMParameterSpec(TAG_BIT_LENGTH, iv) ;
     	    dCipher = Cipher.getInstance("AES/GCM/PKCS5Padding"); 
             dCipher.init(Cipher.DECRYPT_MODE, secretKey, gcmParamSpec, new SecureRandom()); 
-            dCipher.updateAAD(aadData);
+            dCipher.updateAAD(aad);
             Arrays.fill(plainTextKey, '\u0000'); // clear sensitive data
             logger.info("|-- Configuration for GCM decryption engine complete.");
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException| DecoderException | InvalidAlgorithmParameterException e) {  
@@ -112,12 +110,12 @@ public class GaloisCounterAESEngine implements CryptoEngine {
         secRandom.nextBytes(salt) ; // self-seeded randomizer for salt
         
         // Generating IV
-        byte[] iv = new byte[IV_SIZE];
+        byte[] initVector = new byte[IV_SIZE];
 	    SecureRandom random = new SecureRandom();
-	    random.nextBytes(iv);
+	    random.nextBytes(initVector);
 	    
 	    // Generating AAD
-	    aadData = getRandomString(50).getBytes();
+        byte[] aadData = getRandomString(50).getBytes();
         
 	    /* 
 	     * Generating key based on salt and plainTextKey.
@@ -127,11 +125,11 @@ public class GaloisCounterAESEngine implements CryptoEngine {
 	     */ 
         try {
         	SecretKey secretKey = CryptoUtils.generateSecretKey_AES(plainTextKey, salt, ITERATION_COUNT, AES_KEY_SIZE);
-    	    GCMParameterSpec gcmParamSpec = new GCMParameterSpec(TAG_BIT_LENGTH, iv) ;
+    	    GCMParameterSpec gcmParamSpec = new GCMParameterSpec(TAG_BIT_LENGTH, initVector) ;
             eCipher = Cipher.getInstance("AES/GCM/PKCS5Padding"); 
             eCipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParamSpec, new SecureRandom()); 
             eCipher.updateAAD(aadData);
-            initVectorString = Hex.encodeHexString(iv);
+            initVectorString = Hex.encodeHexString(initVector);
         	saltString = Hex.encodeHexString(salt);
         	aadString = Hex.encodeHexString(aadData);
         	Arrays.fill(plainTextKey, '\u0000'); // clear sensitive data
