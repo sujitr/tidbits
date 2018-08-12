@@ -16,11 +16,11 @@ package com.sujit.scrambler.electives;
  * AES_CCM      
  */
 public enum SymmetricCryptoChoices implements CryptoChoices {
-    AES_DEFAULT, 
-    AES_CBC_128, 
-    AES_CBC_256, 
-    AES_GCM_128, 
-    AES_GCM_256, 
-    AES_CTR, 
-    AES_CCM
+    AES_DEFAULT { public String toString() { return "AES Default with chosen key"; }},
+    AES_CBC_128 { public String toString() { return "AES CBC with 128 bit Key derived by PBKDF"; }},
+    AES_CBC_256 { public String toString() { return "AES CBC with 256 bit Key derived by PBKDF"; }},
+    AES_GCM_128 { public String toString() { return "AES GCM with 128 bit Key derived by PBKDF"; }},
+    AES_GCM_256 { public String toString() { return "AES GCM with 256 bit Key derived by PBKDF"; }},
+    AES_CTR { public String toString() { return "AES CTR"; }},
+    AES_CCM { public String toString() { return "AES CCM"; }}
 }
