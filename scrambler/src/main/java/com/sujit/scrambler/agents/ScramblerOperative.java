@@ -2,6 +2,7 @@ package com.sujit.scrambler.agents;
 
 import com.sujit.scrambler.electives.CryptoArchitecture;
 import com.sujit.scrambler.electives.CryptoChoices;
+import com.sujit.scrambler.electives.KeySizes;
 import com.sujit.scrambler.electives.SymmetricCryptoChoices;
 
 import java.io.Console;
@@ -23,9 +24,10 @@ public class ScramblerOperative {
 
     public static void main(String[] args){
 
-        ScramblerMission scramblerMission;
+        ScramblerMission scramblerMission = null;
         CryptoArchitecture architecture = null;
         CryptoChoices cryptoChoices = null;
+        KeySizes keySize = null;
         int keyLength = 0;
         char[] password;
         File inputFile = null;
@@ -78,8 +80,7 @@ public class ScramblerOperative {
                 StringBuilder prompt = new StringBuilder();
                 prompt.append("Select from below key size options - \n");
                 if(architecture.equals(CryptoArchitecture.SYMMETRIC)){
-                    prompt.append("\t['A' for 128 bit]\n")
-                            .append("\t['B' for 256 bit]\n");
+                    prompt.append("\t['A' for 128 bit]\n").append("\t['B' for 256 bit]\n");
                 }else{
                     prompt.append("\t['C' for 2048 bit]\n");
                 }
@@ -210,8 +211,19 @@ public class ScramblerOperative {
             }while(!isReadProperly);
         }while(!isUserReady);
         /* code to actually call the engines and do actions */
+        switch (keyLength){
+            case 128:keySize = KeySizes.BIT_16;break;
+            case 256:keySize = KeySizes.BIT_32;break;
+        }
+        ScramblerMould scramblerMould = new ScramblerMould
+                .Builder(scramblerMission,architecture,cryptoChoices,
+                keySize,password,inputFile,outputFile).build();
 
-
+        try {
+            ScramblerAsset.scramble(scramblerMould);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     private static File getFileLocation(String mode, File earlierfile){

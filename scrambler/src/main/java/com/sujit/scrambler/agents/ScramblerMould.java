@@ -18,6 +18,43 @@ public class ScramblerMould {
     private KeySizes keySize;
     private char[] password;
     private String saltString;
+
+    public ScramblerMission getScramblerMission() {
+        return scramblerMission;
+    }
+
+    public CryptoArchitecture getCryptoArchitecture() {
+        return cryptoArchitecture;
+    }
+
+    public CryptoChoices getCryptoChoices() {
+        return cryptoChoices;
+    }
+
+    public KeySizes getKeySize() {
+        return keySize;
+    }
+
+    public char[] getPassword() {
+        return password;
+    }
+
+    public String getSaltString() {
+        return saltString;
+    }
+
+    public String getInitVectorString() {
+        return initVectorString;
+    }
+
+    public File getInputFilePath() {
+        return inputFilePath;
+    }
+
+    public File getOutputFilePath() {
+        return outputFilePath;
+    }
+
     private String initVectorString;
     private File inputFilePath;
     private File outputFilePath;
