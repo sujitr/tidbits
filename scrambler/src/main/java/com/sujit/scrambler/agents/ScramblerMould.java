@@ -18,6 +18,10 @@ public class ScramblerMould {
     private KeySizes keySize;
     private char[] password;
     private String saltString;
+    private String initVectorString;
+    private String aadString;
+    private File inputFilePath;
+    private File outputFilePath;
 
     public ScramblerMission getScramblerMission() {
         return scramblerMission;
@@ -47,6 +51,10 @@ public class ScramblerMould {
         return initVectorString;
     }
 
+    public String getAadString() {
+        return  aadString;
+    }
+
     public File getInputFilePath() {
         return inputFilePath;
     }
@@ -54,10 +62,6 @@ public class ScramblerMould {
     public File getOutputFilePath() {
         return outputFilePath;
     }
-
-    private String initVectorString;
-    private File inputFilePath;
-    private File outputFilePath;
 
     public static class Builder {
         // required fields
@@ -72,6 +76,7 @@ public class ScramblerMould {
         // optional fields
         private String salt;
         private String iv;
+        private String aad;
 
         public Builder(ScramblerMission mission, CryptoArchitecture arch,
                         CryptoChoices choice,
@@ -98,6 +103,11 @@ public class ScramblerMould {
             return this;
         }
 
+        public Builder aadString(String value){
+            aad = value;
+            return this;
+        }
+
         public ScramblerMould build(){
             return new ScramblerMould(this);
         }
@@ -111,6 +121,7 @@ public class ScramblerMould {
         password = builder.pwd;
         saltString = builder.salt;
         initVectorString = builder.iv;
+        aadString = builder.aad;
         inputFilePath = builder.inFile;
         outputFilePath = builder.outFile;
     }

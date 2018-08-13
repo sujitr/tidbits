@@ -51,7 +51,8 @@ public class ScramblerOperative {
                     case "Q": return;
                     default: console.printf("Please select a valid option \n");
                 }
-                console.printf("You have chosen '%s' operation.\n",scramblerMission.toString());
+                if(isReadProperly)
+                    console.printf("You have chosen '%s' operation.\n",scramblerMission.toString());
             } while (!isReadProperly);
             /* First read the choice of crypto platform */
             isReadProperly = false;
@@ -148,7 +149,7 @@ public class ScramblerOperative {
             /* Fourth, ask user for password */
             isReadProperly = false;
             do{
-                password = console.readPassword("Enter desired passphrase for crypto operation : ");
+                password = console.readPassword("Enter passphrase for crypto operation : ");
                 if(password!=null && password.length >= 8) {
                     if(cryptoChoices.equals(SymmetricCryptoChoices.AES_DEFAULT)){
                         if(keyLength == 128 && password.length != 16){
@@ -187,14 +188,15 @@ public class ScramblerOperative {
             /* Seventh, ask user for final go ahead by displaying all the options chosen */
             console.printf("Your specified options are as listed below.\n");
             console.printf("Please review them to continue...\n");
-            console.printf("======================================================\n");
+            console.printf("===============================================================\n");
+            console.printf("Operation : %s\n", scramblerMission.toString());
             console.printf("Crypto Architecture : %s\n", architecture.name());
             console.printf("Key length : %d\n", keyLength);
             console.printf("Implementation choice : %s\n", cryptoChoices.toString());
             console.printf("Number of characters in passphrase : %d\n", password.length);
             console.printf("Input File : %s\n", inputFile.getAbsolutePath());
             console.printf("Output File : %s\n", outputFile.getAbsolutePath());
-            console.printf("======================================================\n");
+            console.printf("===============================================================\n");
             isReadProperly = false;
             do{
                 String action = console.readLine("Enter 'C' to continue with above settings, 'R'" +
@@ -211,6 +213,7 @@ public class ScramblerOperative {
             }while(!isReadProperly);
         }while(!isUserReady);
         /* code to actually call the engines and do actions */
+        console.printf("\n...attempting to perform the requested operation, please wait...\n");
         switch (keyLength){
             case 128:keySize = KeySizes.BIT_16;break;
             case 256:keySize = KeySizes.BIT_32;break;
@@ -220,10 +223,11 @@ public class ScramblerOperative {
                 keySize,password,inputFile,outputFile).build();
 
         try {
-            ScramblerAsset.scramble(scramblerMould);
+            ScramblerAsset.mobilize(scramblerMould);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        console.printf("\noperation completed. Have a great day!\n");
     }
     
     private static File getFileLocation(String mode, File earlierfile){

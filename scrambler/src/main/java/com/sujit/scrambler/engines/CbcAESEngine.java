@@ -103,7 +103,9 @@ public class CbcAESEngine implements CryptoEngine {
             initVectorString = Hex.encodeHexString(initVector);
             saltString = Hex.encodeHexString(salt);
             Arrays.fill(key, '\u0000'); // clear sensitive data
-            logger.debug("|-- encrypt configuration complete");
+            logger.debug("|-- Configuration for CBC encryption engine complete. " +
+					"Please make a note of generated 'Salt' and 'IV' values.");
+            printEngineParameters();
 	    } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException| InvalidParameterSpecException  e) {
 	        logger.error("|-- Error while configuring encryption cipher  - {}",e.getMessage(), e); 
 	    }
@@ -139,6 +141,14 @@ public class CbcAESEngine implements CryptoEngine {
 	
 	public String getSaltString(){
 	    return saltString;
+	}
+
+	private void printEngineParameters(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("\n\t Init Vector - ").append(initVectorString).append("\n")
+				.append("\t Salt - ").append(saltString).append("\n");
+
+		logger.info(sb.toString());
 	}
 
 }

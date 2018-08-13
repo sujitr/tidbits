@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ScramblerAsset {
-    public static void scramble(ScramblerMould scramblerMould) throws IOException {
+    public static void mobilize(ScramblerMould scramblerMould) throws IOException {
         CryptoFactory cryptoFactory = CryptoFactory
                 .getCryptoFactory(scramblerMould.getCryptoArchitecture());
         CryptoEngine cryptoEngine = cryptoFactory
@@ -20,11 +20,12 @@ public class ScramblerAsset {
 
         switch (scramblerMould.getScramblerMission()){
             case ENCRYPT:cryptoEngine.configEncrypt(scramblerMould.getPassword());
-                         /* figure out how to get generated salt, iv & aad values if any. */
                          cryptoEngine.encrypt(in,out);
                          break;
-            case DECRYPT:cryptoEngine.configDecrypt(scramblerMould.getPassword());
-                         /* figure out how to pass salt, iv & aad values if any. */
+            case DECRYPT:cryptoEngine.configDecrypt(scramblerMould.getPassword(),
+                            scramblerMould.getSaltString(),
+                            scramblerMould.getInitVectorString(),
+                            scramblerMould.getAadString());
                          cryptoEngine.decrypt(in,out);
                          break;
         }

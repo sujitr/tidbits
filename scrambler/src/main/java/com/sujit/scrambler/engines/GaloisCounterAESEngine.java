@@ -79,8 +79,8 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     @Override
     public void configDecrypt(char[] plainTextKey, String... otherParams){
         logger.info("|-- Configuring GCM decryption engine...");
-        String suppliedInitVector = otherParams[0];
-        String suppliedSalt = otherParams[1];
+        String suppliedSalt = otherParams[0];
+        String suppliedInitVector = otherParams[1];
         String suppliedAAD = otherParams[2];
         byte[] salt = null, iv = null, aad = null;
 		try {
@@ -132,7 +132,9 @@ public class GaloisCounterAESEngine implements CryptoEngine {
         	saltString = Hex.encodeHexString(salt);
         	aadString = Hex.encodeHexString(aadData);
         	Arrays.fill(plainTextKey, '\u0000'); // clear sensitive data
-            logger.info("|-- Configuration for GCM encryption engine complete. Please make a note of generated 'Salt', 'IV' & 'AAD' values.");
+            logger.info("|-- Configuration for GCM encryption engine complete. " +
+                    "Please make a note of generated 'Salt', 'IV' & 'AAD' values.");
+            printEngineParameters();
         } catch(NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | InvalidKeySpecException ex) {
             logger.error("|-- Error while configuring GCM engine - {}",ex.getMessage(), ex);
         } 
@@ -173,4 +175,13 @@ public class GaloisCounterAESEngine implements CryptoEngine {
 	public String getAadString(){
 	    return aadString; 
 	}
+
+	private void printEngineParameters(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n\t Init Vector - ").append(initVectorString).append("\n")
+        .append("\t Salt - ").append(saltString).append("\n")
+        .append("\t AAD - ").append(aadString).append("\n");
+
+        logger.info(sb.toString());
+    }
 }

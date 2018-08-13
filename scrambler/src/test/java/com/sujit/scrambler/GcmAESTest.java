@@ -96,7 +96,7 @@ public class GcmAESTest {
         logger.debug("Encrypted file is having content as '{}' ", FileUtils.readFileToString(encryptedFile,"ISO-8859-1"));
 
         // configure the decryption engine        
-        engine.configDecrypt(plainTextKey.toCharArray(), initVectorString, saltString, aadString);
+        engine.configDecrypt(plainTextKey.toCharArray(), saltString, initVectorString, aadString);
         
         // create streams from the files, to be used for decryption engine
         FileInputStream in2 = FileUtils.openInputStream(encryptedFile);
