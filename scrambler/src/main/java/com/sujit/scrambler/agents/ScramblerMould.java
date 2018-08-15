@@ -3,7 +3,7 @@ package com.sujit.scrambler.agents;
 
 import com.sujit.scrambler.electives.CryptoArchitecture;
 import com.sujit.scrambler.electives.CryptoChoices;
-import com.sujit.scrambler.electives.KeySizes;
+import com.sujit.scrambler.electives.KeySize;
 import java.io.File;
 
 /**
@@ -15,7 +15,7 @@ public class ScramblerMould {
     private ScramblerMission scramblerMission;
     private CryptoArchitecture cryptoArchitecture;
     private CryptoChoices cryptoChoices;
-    private KeySizes keySize;
+    private KeySize keySize;
     private char[] password;
     private String saltString;
     private String initVectorString;
@@ -35,7 +35,7 @@ public class ScramblerMould {
         return cryptoChoices;
     }
 
-    public KeySizes getKeySize() {
+    public KeySize getKeySize() {
         return keySize;
     }
 
@@ -68,7 +68,7 @@ public class ScramblerMould {
         private final ScramblerMission mission;
         private final CryptoArchitecture arch;
         private final CryptoChoices choice;
-        private final KeySizes size;
+        private final KeySize size;
         private final char[] pwd;
         private final File inFile;
         private final File outFile;
@@ -80,7 +80,7 @@ public class ScramblerMould {
 
         public Builder(ScramblerMission mission, CryptoArchitecture arch,
                         CryptoChoices choice,
-                        KeySizes size,
+                        KeySize size,
                         char[] pwd,
                         File inFile,
                         File outFile) {

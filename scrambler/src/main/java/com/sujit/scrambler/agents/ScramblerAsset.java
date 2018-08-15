@@ -8,7 +8,17 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * Class to perform activity based on the action chosen
+ * by the user in order to get the job done.
+ */
 public class ScramblerAsset {
+    /**
+     * Method to call the engine's mode of action based on users choice
+     *
+     * @param scramblerMould
+     * @throws IOException
+     */
     public static void mobilize(ScramblerMould scramblerMould) throws IOException {
         CryptoFactory cryptoFactory = CryptoFactory
                 .getCryptoFactory(scramblerMould.getCryptoArchitecture());

@@ -6,21 +6,16 @@ import org.apache.commons.codec.binary.Base64OutputStream;
 import org.apache.commons.codec.binary.Base64InputStream;
 import java.io.IOException;
 import javax.crypto.CipherInputStream;
-import javax.crypto.CipherOutputStream;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.spec.InvalidParameterSpecException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.security.AlgorithmParameters;
 import javax.crypto.spec.IvParameterSpec; 
@@ -32,7 +27,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.sujit.scrambler.electives.KeySizes;
+import com.sujit.scrambler.electives.KeySize;
 import com.sujit.scrambler.utils.CryptoUtils;
 
 /**
@@ -57,7 +52,7 @@ public class CbcAESEngine implements CryptoEngine {
     private final int ITERATION_COUNT;  // iteration count anything greater than 12288
     
     
-    public CbcAESEngine(KeySizes k){
+    public CbcAESEngine(KeySize k){
     	super();
         AES_KEY_SIZE = k.getBitLenth();
         SALT_SIZE = 64;

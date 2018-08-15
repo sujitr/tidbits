@@ -9,13 +9,14 @@ package com.sujit.scrambler.electives;
  * @since 2018
  *
  */
-public enum KeySizes {
+public enum KeySize {
 	BIT_16 (128),
-	BIT_32 (256);
+	BIT_32 (256),
+	BIT_2048 (2048);
 	
 	private final int bitLength;
 	
-	private KeySizes(int bitLength){
+	private KeySize(int bitLength){
 		this.bitLength = bitLength;
 	}
 	

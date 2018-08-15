@@ -4,10 +4,7 @@ import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.GCMParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64InputStream;
 import org.apache.commons.codec.binary.Base64OutputStream;
@@ -17,7 +14,7 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.sujit.scrambler.electives.KeySizes;
+import com.sujit.scrambler.electives.KeySize;
 import com.sujit.scrambler.utils.CryptoUtils;
 
 import java.io.IOException;
@@ -28,7 +25,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.util.Arrays;
 
 /**
@@ -59,7 +55,7 @@ public class GaloisCounterAESEngine implements CryptoEngine {
     
     private static final String seedString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     
-    public GaloisCounterAESEngine(KeySizes k) {
+    public GaloisCounterAESEngine(KeySize k) {
     	super();
         AES_KEY_SIZE = k.getBitLenth();
         SALT_SIZE = 64;
