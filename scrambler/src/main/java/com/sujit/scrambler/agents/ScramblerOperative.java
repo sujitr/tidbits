@@ -13,6 +13,21 @@ import java.io.IOException;
  * This class executes the scrambler for a user. This class is meant
  * to be called from the JAR. It takes input from user about the
  * various choices for the task and then calls the appropriate engines.
+ * 
+ * Typically the choices which user needs to mention for any operation she 
+ * wishes to perform are as below 
+ *      <ul>
+ *          <li>Whether its encryption or decryption operation</li>
+ *          <li>Whats the architecture, symmetric or asymmetric</li>
+ *          <li>Whats the preferred key size</li>
+ *          <li>Whats the algo for the architecture</li>
+ *          <li>Password / Passphrase</li>
+ *          <li>If its a decryption operation then salt, iv & aad values, if applicable</li>
+ *          <li>Input file path</li>
+ *          <li>Output file path</li>
+ *      </ul>
+ * <br>
+ * 
  *
  * @author Sujit
  * @since 2018
