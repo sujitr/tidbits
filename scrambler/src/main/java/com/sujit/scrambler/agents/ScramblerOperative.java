@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 public class ScramblerOperative {
 
-    private static Console console = System.console();
+    private static Console console = System.console(); 
 
     public static void main(String[] args) {
 
@@ -30,33 +30,35 @@ public class ScramblerOperative {
         char[] password;
         File inputFile;
         File outputFile;
-        if (isConsoleAvailable()) {
-            System.out.println("Unable to get hold of console. Exiting...");
+        if (!isConsoleAvailable()) {
+            System.out.println("Unable to get hold of a console. Exiting...");
+            return;
         }
         boolean isUserReady = false;
         do {
             /* first read the mission objective */
             scramblerMission = getUserMission();
-            checkForQuit(scramblerMission);
+            checkForExit(scramblerMission);
             /* second read the choice of crypto platform */
             architecture = getUserArchitecture();
+            checkForExit(architecture);
             /* third read the choice of key size, based upon choice of crypto platform */
             keySize = getKeyLength(architecture);
+            checkForExit(keySize);
             /* fourth read the choice of type of cipher implementation, based upon above two choices */
             cryptoChoices = getUserCryptoChoice(architecture, keySize);
+            checkForExit(cryptoChoices);
             /* fifth, ask user for password */
             password = getPassword(cryptoChoices, keySize);
+            checkForExit(password); 
             /* sixth, ask user for input file location */
             inputFile = getFileLocation("input", null);
-            if (null == inputFile) {
-                return;
-            }
+            checkForExit(inputFile);
             /* seventh, ask user for output file location */
             outputFile = getFileLocation("output", inputFile);
-            if (null == outputFile) {
-                return;
-            }
+            checkForExit(outputFile);
             /* eight, ask user for final go ahead by displaying all the options chosen */
+            /* remove this conformation part also in the utility class, and pass the mould object to confirm  */
             console.printf("Your specified options are as listed below.\n");
             console.printf("Please review them to continue...\n");
             console.printf("===============================================================\n");
@@ -104,7 +106,7 @@ public class ScramblerOperative {
         console.printf("\noperation completed. Have a great day!\n");
     }
 
-    private static void checkForQuit(Object ob){
+    private static void checkForExit(Object ob){
         if(null == ob)
             System.exit(0);
     }
