@@ -1,6 +1,7 @@
 package com.sujit.scrambler.utils;
 
 import com.sujit.scrambler.agents.ScramblerMission;
+import com.sujit.scrambler.agents.ScramblerMould;
 import com.sujit.scrambler.electives.CryptoArchitecture;
 import com.sujit.scrambler.electives.CryptoChoices;
 import com.sujit.scrambler.electives.KeySize;
@@ -113,7 +114,9 @@ public class OpUtils {
                             "please try again...\n",type);
                 }
             }
-            console.printf("You have chosen key length as %d bits\n",keySize.getBitLenth());
+            if(keySize!=null){
+                console.printf("You have chosen key length as %d bits\n",keySize.getBitLenth());
+            }
         }while(!isReadProperly);
         return keySize;
     }
@@ -168,7 +171,9 @@ public class OpUtils {
                     // space for asymmetric implementations
                 }
             }
-            console.printf("You have selected %s\n",cryptoChoices.toString());
+            if (cryptoChoices!=null) {
+                console.printf("You have selected %s\n",cryptoChoices.toString());
+            }
         }while(!isReadProperly);
         return cryptoChoices;
     }
@@ -248,5 +253,50 @@ public class OpUtils {
             }
         }while(!isReadProperly);
         return file;
+    }
+
+    public static Boolean getUserConfirmation(ScramblerMould scramblerMould){
+        console.printf("Your specified options are as listed below.\n");
+        console.printf("Please review them to continue...\n");
+        console.printf("===============================================================\n");
+        console.printf("Operation : %s\n",
+                scramblerMould.getScramblerMission().toString());
+        console.printf("Crypto Architecture : %s\n",
+                scramblerMould.getCryptoArchitecture().name());
+        console.printf("Key length : %d\n",
+                scramblerMould.getKeySize().getBitLenth());
+        console.printf("Implementation choice : %s\n",
+                scramblerMould.getCryptoChoices().toString());
+        console.printf("Number of characters in passphrase : %d\n",
+                scramblerMould.getPassword().length);
+        console.printf("Input File : %s\n",
+                scramblerMould.getInputFilePath().getAbsolutePath());
+        console.printf("Output File : %s\n",
+                scramblerMould.getOutputFilePath().getAbsolutePath());
+        console.printf("===============================================================\n");
+        boolean isReadProperly = false;
+        Boolean response = Boolean.FALSE;
+        do {
+            String action = console.readLine("Enter 'C' to continue with above settings, 'R'" +
+                    " to re-enter them or 'Q' for exit] : ");
+            switch (action) {
+                case "c":
+                case "C":
+                    isReadProperly = true;
+                    response = true;
+                    break;
+                case "r":
+                case "R":
+                    isReadProperly = true;
+                    response = false;
+                    break;
+                case "q":
+                case "Q":
+                    return null;
+                default:
+                    console.printf("Please select a valid choice. \n");
+            }
+        } while (!isReadProperly);
+        return response;
     }
 }

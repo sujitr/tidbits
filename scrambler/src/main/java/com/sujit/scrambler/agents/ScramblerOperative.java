@@ -3,6 +3,9 @@ package com.sujit.scrambler.agents;
 import com.sujit.scrambler.electives.CryptoArchitecture;
 import com.sujit.scrambler.electives.CryptoChoices;
 import com.sujit.scrambler.electives.KeySize;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static com.sujit.scrambler.utils.OpUtils.*;
 
 import java.io.Console;
@@ -34,11 +37,13 @@ import java.io.IOException;
  */
 public class ScramblerOperative {
 
+    private final static Logger logger = LogManager.getLogger(ScramblerOperative.class);
     private static Console console = System.console(); 
 
     public static void main(String[] args) {
 
         ScramblerMission scramblerMission;
+        ScramblerMould scramblerMould;
         CryptoArchitecture architecture;
         CryptoChoices cryptoChoices;
         KeySize keySize;
@@ -73,52 +78,22 @@ public class ScramblerOperative {
             outputFile = getFileLocation("output", inputFile);
             checkForExit(outputFile);
             /* eight, ask user for final go ahead by displaying all the options chosen */
+            scramblerMould = new ScramblerMould
+                    .Builder(scramblerMission, architecture, cryptoChoices,
+                    keySize, password, inputFile, outputFile).build();
             /* remove this conformation part also in the utility class, and pass the mould object to confirm  */
-            console.printf("Your specified options are as listed below.\n");
-            console.printf("Please review them to continue...\n");
-            console.printf("===============================================================\n");
-            console.printf("Operation : %s\n", scramblerMission.toString());
-            console.printf("Crypto Architecture : %s\n", architecture.name());
-            console.printf("Key length : %d\n", keySize.getBitLenth());
-            console.printf("Implementation choice : %s\n", cryptoChoices.toString());
-            console.printf("Number of characters in passphrase : %d\n", password.length);
-            console.printf("Input File : %s\n", inputFile.getAbsolutePath());
-            console.printf("Output File : %s\n", outputFile.getAbsolutePath());
-            console.printf("===============================================================\n");
-            boolean isReadProperly = false;
-            do {
-                String action = console.readLine("Enter 'C' to continue with above settings, 'R'" +
-                        " to re-enter them or 'Q' for exit] : ");
-                switch (action) {
-                    case "c":
-                    case "C":
-                        isReadProperly = true;
-                        isUserReady = true;
-                        break;
-                    case "r":
-                    case "R":
-                        isReadProperly = true;
-                        break;
-                    case "q":
-                    case "Q":
-                        return;
-                    default:
-                        console.printf("Please select a valid choice. \n");
-                }
-            } while (!isReadProperly);
+            Boolean response = getUserConfirmation(scramblerMould);
+            checkForExit(response);
+            isUserReady = response.booleanValue();
         } while (!isUserReady);
         /* code to actually call the engines and do actions */
-        console.printf("\n...attempting to perform the requested operation, please wait...\n");
-        ScramblerMould scramblerMould = new ScramblerMould
-                .Builder(scramblerMission, architecture, cryptoChoices,
-                keySize, password, inputFile, outputFile).build();
-
+        logger.info("attempting to perform the requested operation, please wait...\n");
         try {
             ScramblerAsset.mobilize(scramblerMould);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        console.printf("\noperation completed. Have a great day!\n");
+        logger.info("operation completed. Have a great day!\n");
     }
 
     private static void checkForExit(Object ob){
