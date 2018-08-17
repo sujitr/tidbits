@@ -32,6 +32,10 @@ public class CryptoUtils {
 	public static final String ALGO_AES = "AES";
 	public static final int SALT_SIZE = 64;
 	public static final int ITERATION_COUNT = 65536;
+	public static final String SALT_TAG = "Salt";
+	public static final String IV_TAG = "Initialization Vector";
+	public static final String AAD_TAG = "AAD";
+
 	
 	
 	/**

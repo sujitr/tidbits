@@ -3,10 +3,12 @@ package com.sujit.scrambler.agents;
 import com.sujit.scrambler.electives.CryptoArchitecture;
 import com.sujit.scrambler.electives.CryptoChoices;
 import com.sujit.scrambler.electives.KeySize;
+import com.sujit.scrambler.electives.SymmetricCryptoChoices;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static com.sujit.scrambler.utils.OpUtils.*;
+import static com.sujit.scrambler.utils.CryptoUtils.*;
 
 import java.io.Console;
 import java.io.File;
@@ -48,6 +50,9 @@ public class ScramblerOperative {
         CryptoChoices cryptoChoices;
         KeySize keySize;
         char[] password;
+        String saltString = null;
+        String initVectorString = null;
+        String aadString = null;
         File inputFile;
         File outputFile;
         if (!isConsoleAvailable()) {
@@ -68,9 +73,22 @@ public class ScramblerOperative {
             /* fourth read the choice of type of cipher implementation, based upon above two choices */
             cryptoChoices = getUserCryptoChoice(architecture, keySize);
             checkForExit(cryptoChoices);
-            /* fifth, ask user for password */
+            /* fifth, ask user for password & other details */
             password = getPassword(cryptoChoices, keySize);
-            checkForExit(password); 
+            checkForExit(password);
+            /* if its a decryption operation, ask for additional details */
+            if(scramblerMission == ScramblerMission.DECRYPT &&
+                    cryptoChoices != SymmetricCryptoChoices.AES_DEFAULT){
+                saltString = getAdditionalData(SALT_TAG);
+                checkForExit(saltString);
+                initVectorString = getAdditionalData(IV_TAG);
+                checkForExit(initVectorString);
+                if(cryptoChoices == SymmetricCryptoChoices.AES_GCM_128 ||
+                        cryptoChoices == SymmetricCryptoChoices.AES_GCM_256){
+                    aadString = getAdditionalData(AAD_TAG);
+                    checkForExit(aadString);
+                }
+            }
             /* sixth, ask user for input file location */
             inputFile = getFileLocation("input", null);
             checkForExit(inputFile);
@@ -78,9 +96,18 @@ public class ScramblerOperative {
             outputFile = getFileLocation("output", inputFile);
             checkForExit(outputFile);
             /* eight, ask user for final go ahead by displaying all the options chosen */
-            scramblerMould = new ScramblerMould
-                    .Builder(scramblerMission, architecture, cryptoChoices,
-                    keySize, password, inputFile, outputFile).build();
+            if(scramblerMission == ScramblerMission.ENCRYPT){
+                scramblerMould = new ScramblerMould
+                        .Builder(scramblerMission, architecture, cryptoChoices,
+                        keySize, password, inputFile, outputFile).build();
+            }else{
+                scramblerMould = new ScramblerMould
+                        .Builder(scramblerMission, architecture, cryptoChoices,
+                        keySize, password, inputFile, outputFile)
+                        .salt(saltString).initVector(initVectorString).aadString(aadString)
+                        .build();
+            }
+
             /* remove this conformation part also in the utility class, and pass the mould object to confirm  */
             Boolean response = getUserConfirmation(scramblerMould);
             checkForExit(response);

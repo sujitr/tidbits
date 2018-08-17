@@ -255,6 +255,26 @@ public class OpUtils {
         return file;
     }
 
+    public static String getAdditionalData(String query){
+        boolean isReadProperly = false;
+        String result = null;
+        do {
+            result = console.readLine("Please enter the value for '%s' :",query);
+            console.printf("You have entered : %s \n",result);
+            String confirm = console.readLine("press [C] to confirm, [R] to re-enter or [Q] to quit: ");
+            switch (confirm){
+                case "c":
+                case "C":isReadProperly = true;break;
+                case "r":
+                case "R":break;
+                case "q":
+                case "Q":return null;
+                default: console.printf("\nPlease select a valid choice. %s is not a valid option\n",confirm);
+            }
+        } while (!isReadProperly);
+        return result;
+    }
+
     public static Boolean getUserConfirmation(ScramblerMould scramblerMould){
         console.printf("Your specified options are as listed below.\n");
         console.printf("Please review them to continue...\n");
