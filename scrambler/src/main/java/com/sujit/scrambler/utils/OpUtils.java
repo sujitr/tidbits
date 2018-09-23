@@ -19,7 +19,7 @@ import java.util.Arrays;
  */
 public class OpUtils {
 
-    private static final Console console = System.console();
+    private static Console console = System.console();
 
     /**
      * check if console is available or not
@@ -193,6 +193,7 @@ public class OpUtils {
                         continue;
                     }
                 }
+                console.flush();
                 repassword = console.readPassword("Please re-enter the passphrase : ");
                 if(repassword!=null && Arrays.equals(password, repassword)){
                     Arrays.fill(repassword,'\u0000');

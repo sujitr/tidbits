@@ -40,7 +40,6 @@ import java.io.IOException;
 public class ScramblerOperative {
 
     private final static Logger logger = LogManager.getLogger(ScramblerOperative.class);
-    private static Console console = System.console(); 
 
     public static void main(String[] args) {
 
