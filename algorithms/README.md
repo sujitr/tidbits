@@ -1,8 +1,8 @@
-#H1 Algorithms
+# Algorithms
 
-##H2 Sorting Algorithms
+## Sorting Algorithms
 
-###H3 QuickSort
+### QuickSort
 A quick sort first selects a value, which is called the pivot value. 
 Although there are many different ways to choose the pivot value, we will simply use
 the first item in the list. The role of the pivot value is to assist with splitting the list. 
