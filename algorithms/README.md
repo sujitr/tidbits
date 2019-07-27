@@ -20,3 +20,6 @@ while not using additional storage. As a trade-off, however, it is possible that
 not be divided in half. When this happens, we will see that performance is diminished.
 
 [Check here for more description](https://runestone.academy/runestone/books/published/pythonds/SortSearch/TheQuickSort.html)
+
+> Good to know : Java Arrays.sort() method uses dual pivot QuickSort. 
+> To know more about that check out [this](https://cs.stanford.edu/~rishig/courses/ref/l11a.pdf) 
