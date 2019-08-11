@@ -22,4 +22,11 @@ not be divided in half. When this happens, we will see that performance is dimin
 [Check here for more description](https://runestone.academy/runestone/books/published/pythonds/SortSearch/TheQuickSort.html)
 
 > Good to know : Java Arrays.sort() method uses dual pivot QuickSort. 
-> To know more about that check out [this](https://cs.stanford.edu/~rishig/courses/ref/l11a.pdf) 
+> To know more about that check out [this](https://cs.stanford.edu/~rishig/courses/ref/l11a.pdf)
+
+### Selection Sort
+The most simplest of sorting algorithms. Child's sort.
+You start with first element and compare with every other element in array.
+If you find any other element smaller than it then swap'em. Then you move 
+onto the next element and repeat the process over again, till you reach last
+element of the array. 
