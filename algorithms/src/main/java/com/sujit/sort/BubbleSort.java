@@ -2,6 +2,12 @@ package com.sujit.sort;
 
 import java.util.Arrays;
 
+/**
+ * Second most easiest sort algorithm. Keep comparing
+ * two neighbors, throughout the length of the array.
+ * This will make the largest one bubble up to the
+ * right, effectively sorting the numbers in between.
+ */
 public class BubbleSort {
     private int[] data;
 

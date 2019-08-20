@@ -30,3 +30,9 @@ You start with first element and compare with every other element in array.
 If you find any other element smaller than it then swap'em. Then you move 
 onto the next element and repeat the process over again, till you reach last
 element of the array. 
+
+### Bubble Sort
+Second most simplest of sorting algorithms. Keep comparing two neighboring
+elements, swapping them if they are out of order. Keep doing that till you 
+go about all the elements in the array. This would ensure the highest element(s)
+bubble up to the rightmost position(s).

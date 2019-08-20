@@ -2,6 +2,12 @@ package com.sujit.sort;
 
 import java.util.Arrays;
 
+/**
+ * Also known as child's sort. This is the most
+ * basic sorting approach. Here you pick up one
+ * element and keep matching it with all the
+ * other elements to find its correct position.
+ */
 public class SelectionSort {
     private int[] data;
 
