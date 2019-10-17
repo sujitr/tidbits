@@ -1,4 +1,4 @@
-package com.sujit.excercise.TwoNumber;
+package com.sujit.exercise.TwoNumber;
 
 import java.util.HashMap;
 import java.util.HashSet;

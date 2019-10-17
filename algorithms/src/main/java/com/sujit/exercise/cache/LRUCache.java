@@ -1,8 +1,13 @@
-package com.sujit.excercise.cache;
+package com.sujit.exercise.cache;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * LRU Cache implementation with double linked list.
+ * The most recent object is always kept at the tail of the list,
+ * and the least recent object is one at the head.
+ */
 public class LRUCache {
     private Map<Integer, Node> cache;
     private int capacity;

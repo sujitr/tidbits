@@ -1,4 +1,4 @@
-package com.sujit.excercise;
+package com.sujit.exercise;
 
 import java.util.Arrays;
 

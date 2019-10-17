@@ -1,4 +1,4 @@
-package com.sujit.excercise.CustomATOI;
+package com.sujit.exercise.CustomATOI;
 
 import org.junit.Rule;
 import org.junit.Test;

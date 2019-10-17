@@ -1,4 +1,4 @@
-package com.sujit.excercise.FindMissingInteger;
+package com.sujit.exercise.FindMissingInteger;
 
 import java.util.Arrays;
 

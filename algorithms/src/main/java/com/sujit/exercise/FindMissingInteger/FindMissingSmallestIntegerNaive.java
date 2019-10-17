@@ -1,4 +1,4 @@
-package com.sujit.excercise.FindMissingInteger;
+package com.sujit.exercise.FindMissingInteger;
 
 /**
  * A naive approach to find the smallest positive

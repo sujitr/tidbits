@@ -1,4 +1,4 @@
-package com.sujit.excercise.CustomATOI;
+package com.sujit.exercise.CustomATOI;
 
 /**
  * Custom atoi class which behaves just like the native

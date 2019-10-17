@@ -16,3 +16,9 @@ hash table, we return it.
 * **Linear time approach** - O(n) - We use array elements as index. To mark presence of an element x, we change the value
 at the index x to negative. This approach will not work with negative numbers, so we segregate +ve from -ve numbers and 
 then apply this approach. 
+
+Following is the two step algorithm for Linear Time Approach - 
+1. Segregate positive numbers from others i.e., move all non-positive numbers to left side. In the following code, segregate() function does this part.
+
+2. Now we can ignore non-positive elements and consider only the part of array which contains all positive elements. 
+We traverse the array containing all positive numbers and to mark presence of an element x, we change the sign of value at index x to negative. We traverse the array again and print the first index which has positive value.
