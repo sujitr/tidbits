@@ -19,15 +19,24 @@ public class DoubleTon {
 
     private static int callCount;
 
-    public static DoubleTon getInstance(){
-        if(++callCount%2==0){
-            return instances[0];
-        }else{
-            return instances[1];
-        }
+    /**
+     * This method needs to be synchronized as the callCount
+     * needs to be protected from multiple access to avoid
+     * inconsistent values.
+     */
+    public static synchronized DoubleTon getInstance(){
+        return instances[++callCount % 2];
     }
 
     public static void main(String[] args){
-        Stream.generate(DoubleTon::getInstance).limit(10).forEach(System.out::println);
+        DoubleTon d1 = DoubleTon.getInstance();
+        DoubleTon d2 = DoubleTon.getInstance();
+        for(int i = 1; i <= 10; i++){
+            if(i%2 != 0){
+                System.out.println(d1 == DoubleTon.getInstance());
+            }else{
+                System.out.println(d2 == DoubleTon.getInstance());
+            }
+        }
     }
 }
