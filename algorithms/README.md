@@ -2,6 +2,29 @@
 
 ## Sorting Algorithms
 
+### Counting Sort
+<p>Counting sort algorithm is used when the specific range of the array is known.</p>
+<p>The frequencies of distinct elements of the array to be sorted is counted and
+stored in an auxiliary array, by mapping its value as an index of the auxiliary array.</p>
+
+Let's assume that, array A of size N needs to be sorted.
+
+> 1. Initialize the auxillary array ***Aux[]*** as 0. 
+>   > Note: The size of this array should be ***>= max(A[])***
+> 2. Traverse array ***A*** and store the count of occurrence of each 
+       element in the appropriate index of the array, which means, 
+       execute ***Aux[A[i]]++*** for each **_i_**, where **_i_** ranges from **_[0, N-1]_**
+> 3. Initialize the empty array **_sortedA[]_**
+> 4. Traverse array **_Aux_** and copy **_i_** into **_sortedA_** for **_Aux[i]_** number
+      of times where **_0 <= i <= max(A[])_**
+
+**Note:** The array A can be sorted by using this algorithm only if the 
+maximum value in array A is less than the maximum size of the array Aux. 
+Usually, it is possible to allocate memory up to the order of a million.
+If the maximum value of A exceeds the maximum memory- allocation size, 
+it is recommended that you do not use this algorithm. 
+Use either the quick sort or merge sort algorithm.
+
 ### QuickSort
 A quick sort first selects a value, which is called the pivot value. 
 Although there are many different ways to choose the pivot value, we will simply use
