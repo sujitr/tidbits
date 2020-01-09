@@ -82,7 +82,7 @@ There are two classic ways to traverse graphs -
 
 ![Comparison of approaches](https://miro.medium.com/max/1440/1*_v6x7az3pWGaBWYo-fYMwg.jpeg)
 
-##Graph Search
+## Graph Search
 Extracting meaningful insights from the traversals of a graph.
 
 ![Whats matter in search objectives?](https://miro.medium.com/max/1728/1*ri9EgM7xLmrZmywgwt96pQ.jpeg)
