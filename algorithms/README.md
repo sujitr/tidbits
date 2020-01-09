@@ -80,12 +80,12 @@ There are two classic ways to traverse graphs -
 1. **DFT (DFS)** - Depth First approach
 2. **BFT (BFS)** - Breadth First approach
 
-[!Comparison of approaches](https://miro.medium.com/max/1440/1*_v6x7az3pWGaBWYo-fYMwg.jpeg)
+![Comparison of approaches](https://miro.medium.com/max/1440/1*_v6x7az3pWGaBWYo-fYMwg.jpeg)
 
 ##Graph Search
 Extracting meaningful insights from the traversals of a graph.
 
-[!Whats matter in search objectives?](https://miro.medium.com/max/1728/1*ri9EgM7xLmrZmywgwt96pQ.jpeg)
+![Whats matter in search objectives?](https://miro.medium.com/max/1728/1*ri9EgM7xLmrZmywgwt96pQ.jpeg)
 
 1. Whether a path even exists between two nodes? – can be done using DFS
 
