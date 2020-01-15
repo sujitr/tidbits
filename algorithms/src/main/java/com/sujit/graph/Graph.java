@@ -92,7 +92,7 @@ public class Graph {
         /* taking this person as an arbitrary root node */
         GraphNode root = new GraphNode(name);
         /* to keep track of all visited nodes */
-        Set<GraphNode> visitedNodes = new HashSet<>();
+        Set<GraphNode> visitedNodes = new LinkedHashSet<>();
         /* to keep track of nodes which is yet to be visited */
         Stack<GraphNode> nodesToVisit = new Stack<>();
         nodesToVisit.push(root);
@@ -103,6 +103,33 @@ public class Graph {
                 // get all its neighbors and add them in stack for traversing
                 nodeListMap.get(node).forEach(nodesToVisit::push);
             }
+        }
+        return visitedNodes;
+    }
+
+    /**
+     * BFT traversal on graph
+     * @param name
+     * @return set containing all nodes in the graph
+     */
+    public Set<GraphNode> traverseBFT(String name){
+        /* taking this person as an arbitrary root node */
+        GraphNode root = new GraphNode(name);
+        /* to keep track of all visited nodes */
+        Set<GraphNode> visitedNodes = new LinkedHashSet<>();
+        /* to keep track of nodes which is yet to be visited */
+        Queue<GraphNode> nodesToVisit = new LinkedList<>();
+        nodesToVisit.add(root);
+        while(!nodesToVisit.isEmpty()){
+            GraphNode node = nodesToVisit.poll();
+            visitedNodes.add(node);
+            this.getNeighbors(node.toString())
+                    .stream()
+                    .filter(n->!visitedNodes.contains(n))
+                    .forEach(n->{
+                        visitedNodes.add(n);
+                        nodesToVisit.add(n);
+                    });
         }
         return visitedNodes;
     }
