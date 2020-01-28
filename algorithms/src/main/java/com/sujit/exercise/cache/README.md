@@ -29,5 +29,27 @@ Weaknesses:
 Visualization: 
 ![alt text](https://raw.githubusercontent.com/sujitr/tidbits/master/algorithms/src/main/resources/LRUCache.png "LRU With Hashmap & Doubly Linked List")
 
+More resources:
+
+1. [Site](https://www.interviewcake.com/concept/java/lru-cache)
 
 ### With LinkedHashMap
+
+The [LinkedHashMap](https://www.baeldung.com/java-linked-hashmap) class is very similar to HashMap in most aspects. 
+However, the linked hash map is based on both hash table and linked list to enhance the functionality of hash map.
+
+It maintains a doubly-linked list running through all its entries in addition to an underlying array of default size 16.
+
+It is an ordered Map. You can specify how you want to order the map, by insertion or by access.
+It keeps track of the order in which each entry is added.
+By default, it removes the oldest entry when reached a threshold.
+
+Hence we can use this JDK provided structure directly instead of creating our own version to use as an LRU Cache.
+That involves following steps.
+
+
+1. A special [constructor](https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html#LinkedHashMap-int-float-boolean-) 
+is provided to create a linked hash map whose order of iteration is the order in which its entries were last accessed, from least-recently accessed to most-recently (access-order). This kind of map is well-suited to building LRU caches.
+
+2. The [removeEldestEntry(Map.Entry)](https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html#removeEldestEntry-java.util.Map.Entry-) method may be overridden to impose a policy for removing stale mappings automatically when new mappings are added to the map. 
+
