@@ -53,3 +53,5 @@ is provided to create a linked hash map whose order of iteration is the order in
 
 2. The [removeEldestEntry(Map.Entry)](https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html#removeEldestEntry-java.util.Map.Entry-) method may be overridden to impose a policy for removing stale mappings automatically when new mappings are added to the map. 
 
+References:
+For a good visual representation of LinkedHashMap working, please refer [here](https://medium.com/@mr.anmolsehgal/java-linkedhashmap-internal-implementation-44e2e2893036)
