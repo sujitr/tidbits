@@ -4,9 +4,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * LRU Cache implementation with double linked list.
+ * LRU Cache implementation with doubly linked list.
+ *
+ * For this implementation we coded below functionality -
  * The most recent object is always kept at the tail of the list,
  * and the least recent object is one at the head.
+ *
+ * LRU could also be implemented with most recent object
+ * at head of the list, while least recent is one at the end.
+ *
+ * An LRU Cache should support fast lookup. Apparently, in order to
+ * achieve fast lookup, we need to use Hashtable or HashMap.
+ *
+ * Also, an LRU Cache requires that insert and delete operations
+ * should be in O(1) time. The obvious choice for this requirement
+ * is Linked List. Linked List support insert/delete operations
+ * in O(1) time if we have the reference of element.
+ *
+ * While building an LRU cache requires that you think in terms of
+ * these two data structures. The reality is that these two data
+ * structures actually work coherently to achieve the design.
+ *
+ * So, we are finalizing on these data structures:
+ * One HashMap and one Doubly Linked List.
+ *
+ * HashMap holds the keys and values as reference
+ * of the nodes (entries) of Doubly Linked List.
  */
 public class LRUCache {
     private Map<Integer, Node> cache;
@@ -86,6 +109,10 @@ public class LRUCache {
 
 }
 
+/**
+ * We need the nodes to hold their own keys.
+ * This matters when the LRU entry is evicted when capacity is surpassed.
+ */
 class Node {
     private int key;
     private int data;
