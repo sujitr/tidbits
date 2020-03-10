@@ -56,7 +56,7 @@ public class QuickSort {
             larger than pivot and till left and right pointers crosses.
             If they cross that means all the elements have been compared.
              */
-            while(data[left] < pivotValue && left<=right) left++;
+            while(left<=right && data[left] < pivotValue) left++;
             /*
             keep moving right pointer backward till you encounter an
             element smaller than pivot and till left and right pointers crosses.
@@ -90,7 +90,7 @@ public class QuickSort {
     }
 
     public static void main(String[] args) {
-        int[] data = {12,5,34,1,76,23};
+        int[] data = {12,5,34,1,76,23,2,14};
         QuickSort qs = new QuickSort(data);
         qs.performSort();
         System.out.println("Sorted :: "+ Arrays.toString(data));
