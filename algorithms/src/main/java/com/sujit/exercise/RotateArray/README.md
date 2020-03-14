@@ -21,5 +21,5 @@ There are **Three** approaches for this problem -
 3. Mathematical Approach
     * The k'th rotated position of any element which is currently at position i is = (i+k)%len, where len is the length of the array
     * O(n) - time complexity
-    * O(n) - space complexity
+    * O(1) - space complexity
 
