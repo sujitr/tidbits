@@ -1,5 +1,5 @@
-# Array Rotation
-Given an array, rotate the array to the right by k steps, where k is non-negative.
+# Array Rotation - Right Side
+Given an array, rotate the array to the ***right*** by k steps, where k is non-negative.
 
 > Input: [1,2,3,4,5,6,7] and k = 3
 
@@ -19,7 +19,8 @@ There are **Three** approaches for this problem -
     * Join the sub-arrays after reversing
     * Reverse the joined array once more
 3. **Mathematical Approach**
-    * The **k'th** rotated position of any element which is currently at position **i** is = **(i+k)%len**, where len is the length of the array
+    * The **k'th** rotated position to the ***right***, of any element which is currently at position **i**, is = **(i+k)%len**, where len is the length of the array
+    * The **k'th** rotated position to the ***left***, of any element which is currently at position **i**, is = **(i+len-k)%len**, where len is the length of the array
     * O(n) - time complexity
     * O(1) - space complexity
 
