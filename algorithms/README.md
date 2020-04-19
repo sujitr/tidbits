@@ -79,6 +79,15 @@ There are two ways to represent graph using data structures -
 * Adjacency Matrix
 * Adjacency List (Arrays of Lists or Linked-Lists)
 
+## Connected Components in Graph
+A connected component of an undirected graph is a subgraph in which every two vertices are connected to each other by a path(s), and which is connected to no other vertices outside the subgraph.
+
+Below graph has three connected components - 
+![Connected components in a Graph](https://media.geeksforgeeks.org/wp-content/uploads/connectedcomponents.png)
+
+A graph where all vertices are connected with each other has exactly one connected component, 
+consisting of the whole graph. Such a graph with only one connected component is called a Strongly Connected Graph.
+
 ## Graph Traversal 
 Graph traversal (also known as graph search) refers to the process of 
 visiting (checking and/or updating) each vertex in a graph. 
