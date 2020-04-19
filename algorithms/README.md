@@ -60,8 +60,19 @@ elements, swapping them if they are out of order. Keep doing that till you
 go about all the elements in the array. This would ensure the highest element(s)
 bubble up to the rightmost position(s).
 
+> A very good blog on reading basic CS concepts. Explains in easy and fun way.
+> Can be used for a quick refresher - [check out](https://medium.com/basecs)
 
 # Graph
+
+What is a Graph? Simply put, its a non-linear unrestricted data structure. Think 
+it as a superset of Tree, where all the restrictions of Tree goes out of the window.
+No 'root' node, no unidirectional flow. All the mess you can think of without those
+rules are a Graph.
+
+![Tree data structures as compared to graph data structures](https://miro.medium.com/max/1400/1*rguQ2Y2Z920IYGkO0cHHtQ.jpeg)
+
+For details - [Check this Gentle Introduction to Graph Theory](https://medium.com/basecs/a-gentle-introduction-to-graph-theory-77969829ead8)
 
 ## Graph Representations
 There are two ways to represent graph using data structures - 
@@ -77,7 +88,7 @@ the graph.\n
 
 There are two classic ways to traverse graphs - 
 
-1. **DFT (DFS)** - Depth First approach
+1. **DFT (DFS)** - [Depth First approach](https://medium.com/basecs/deep-dive-through-a-graph-dfs-traversal-8177df5d0f13)
 2. **BFT (BFS)** - Breadth First approach
 
 ![Comparison of approaches](https://miro.medium.com/max/1440/1*_v6x7az3pWGaBWYo-fYMwg.jpeg)
@@ -97,4 +108,3 @@ Extracting meaningful insights from the traversals of a graph.
     1. https://cs.stanford.edu/people/abisee/gs.pdf
     2. https://www.redblobgames.com/pathfinding/a-star/introduction.html
     
-[Graph Material Sources](https://medium.com/basecs/deep-dive-through-a-graph-dfs-traversal-8177df5d0f13)
