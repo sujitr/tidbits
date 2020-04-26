@@ -9,7 +9,7 @@ public class OptimizedAlgorithm {
 
     public int getMaxSubArraySum() {
         int sum=0;
-        int largest =Integer.MIN_VALUE;
+        int largest = Integer.MIN_VALUE;
         for(int num:nums){
             sum+=num;
             largest = Math.max(sum,largest);

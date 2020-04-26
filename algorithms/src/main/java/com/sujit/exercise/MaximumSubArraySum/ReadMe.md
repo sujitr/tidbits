@@ -12,18 +12,18 @@ in approach.
 
 ### Approach # 1 - Kadane's Algorithm
 
-Initialize:  
-* max_so_far = Minimum Integer Value  
-* max_ending_here = 0
+> Initialize:  
+> * max_so_far = Minimum Integer Value  
+> * max_ending_here = 0
 
-Loop for each element of the array  
-  (a) max_ending_here = max_ending_here + a[i]  
-  (b) if(max_so_far < max_ending_here)  
-              max_so_far = max_ending_here  
-  (c) if(max_ending_here < 0)  
-            max_ending_here = 0  
+> Loop for each element of the array  
+>   * max_ending_here = max_ending_here + a[i]
+>   * if(max_so_far < max_ending_here)  
+>   &nbsp;&nbsp;&nbsp;&nbsp; max_so_far = max_ending_here  
+>   * if(max_ending_here < 0)  
+>   &nbsp;&nbsp;&nbsp;&nbsp; max_ending_here = 0  
   
-return max_so_far
+> return max_so_far
 
 Here the idea is to look for all positive contiguous segments of the array
 (max_ending_here is used for this). And keep track of maximum sum 
