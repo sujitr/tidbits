@@ -1,5 +1,13 @@
 # LRU Cache
-A Least Recently Used (LRU) Cache organizes items in order of use, allowing you to quickly identify which item hasn't been used for the longest amount of time. 
+A Least Recently Used (LRU) Cache organizes items in order of use, 
+allowing you to quickly identify which item hasn't been used for 
+the longest amount of time.
+
+When a cache miss occurs, such an item is evicted first, and then
+the new item is placed in the cache.
+
+Hence, from this eviction policy of removal of least used item, the name
+of the cache mechanism.
 
 
 ### Target Costs
