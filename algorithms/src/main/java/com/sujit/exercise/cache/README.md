@@ -15,6 +15,18 @@ A Least Recently Used (LRU) Cache organizes items in order of use, allowing you 
 
 ### With HashMap and Doubly Linked List
 
+An LRU Cache should support fast lookup. Apparently, in order to
+achieve fast lookup, we need to use Hashtable or HashMap.
+
+Also, an LRU Cache requires that insert and delete operations
+should be in O(1) time. The obvious choice for this requirement
+is Linked List. Linked List support insert/delete operations
+in O(1) time if we have the reference of element.
+
+While building an LRU cache requires that you think in terms of
+these two data structures. The reality is that these two data
+structures actually work coherently to achieve the design.
+
 Strengths:
 
     Super fast accesses. LRU caches store items in order from most-recently used to least-recently used. That means both can be accessed in O(1) time.
@@ -27,7 +39,7 @@ Weaknesses:
     and a hash map holding 'n' items. That's O(n) space, but it's still two data structures (as opposed to one).
 
 Visualization: 
-![alt text](https://raw.githubusercontent.com/sujitr/tidbits/master/algorithms/src/main/resources/LRUCache.png "LRU With Hashmap & Doubly Linked List")
+![alt text](https://raw.githubusercontent.com/sujitr/tidbits/master/algorithms/src/main/resources/lru-cache-2.png "LRU With Hashmap & Doubly Linked List")
 
 More resources:
 
