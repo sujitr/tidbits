@@ -1,4 +1,4 @@
-package com.sujit.exercise.FindFirstUnique;
+package com.sujit.exercise.FindFirstUniqueNumber;
 
 import org.junit.Assert;
 import org.junit.Test;

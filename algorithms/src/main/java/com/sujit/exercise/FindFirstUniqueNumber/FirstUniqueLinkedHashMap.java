@@ -1,4 +1,4 @@
-package com.sujit.exercise.FindFirstUnique;
+package com.sujit.exercise.FindFirstUniqueNumber;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;

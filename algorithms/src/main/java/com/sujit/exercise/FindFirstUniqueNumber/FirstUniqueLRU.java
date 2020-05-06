@@ -1,4 +1,4 @@
-package com.sujit.exercise.FindFirstUnique;
+package com.sujit.exercise.FindFirstUniqueNumber;
 
 import java.util.HashMap;
 import java.util.Map;
