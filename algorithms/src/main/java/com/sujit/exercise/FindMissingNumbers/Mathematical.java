@@ -11,18 +11,15 @@ public class Mathematical {
     }
 
     public List<Integer> findMissingNumbers() {
-        int min = nums[0];
-        int max = nums[0];
+        /*
+        Since the missing numbers will always be in
+        the range of 1 to array length
+         */
+        int min = 1;
+        int max = nums.length;
         List<Integer> result = new ArrayList<>();
         /*
-        first find out the min and max range of the given array
-         */
-        for(int i : nums){
-            if(i < min) min = i;
-            if(i > max) max = i;
-        }
-        /*
-        Then create another array within the range
+        Create another array within the range
          */
         int[] sample = new int[max-min+1];
         /*
