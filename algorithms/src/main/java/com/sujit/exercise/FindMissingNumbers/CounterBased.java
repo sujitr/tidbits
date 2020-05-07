@@ -3,10 +3,14 @@ package com.sujit.exercise.FindMissingNumbers;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mathematical {
+/**
+ * This is a counter based approach
+ * based on using extra space.
+ */
+public class CounterBased {
     private int[] nums;
 
-    public Mathematical(int[] data) {
+    public CounterBased(int[] data) {
         this.nums = data;
     }
 

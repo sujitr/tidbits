@@ -8,22 +8,21 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class MathematicalTest {
+public class OptimalTest {
 
     @Test
     public void findMissingNumbers_1() {
         int[] data = {4,3,2,7,8,2,3,1};
-        Mathematical mathematical = new Mathematical(data);
+        Optimal optimal = new Optimal(data);
         List<Integer> expected = Arrays.asList(5,6);
-        Assert.assertEquals(expected, mathematical.findMissingNumbers());
+        Assert.assertEquals(expected, optimal.findMissingNumbers());
     }
 
     @Test
     public void findMissingNumbers_2() {
         int[] data = {1,1};
-        Mathematical mathematical = new Mathematical(data);
+        Optimal optimal = new Optimal(data);
         List<Integer> expected = Arrays.asList(2);
-        Assert.assertEquals(expected, mathematical.findMissingNumbers());
+        Assert.assertEquals(expected, optimal.findMissingNumbers());
     }
-
 }
