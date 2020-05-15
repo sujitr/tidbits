@@ -137,7 +137,7 @@ Another reason why trie outperforms hash table, is that as hash table increases 
 ### Trie Node Structure
 Trie is a rooted tree. Its nodes have the following fields:
 
-* Maximum of RRR links to its children, where each link corresponds to one of RRR character values from dataset alphabet. In this article we assume that RRR is 26, the number of lowercase latin letters.
+* Maximum of R links to its children, where each link corresponds to one of R character values from dataset alphabet. In this article we assume that R is 26, the number of lowercase latin letters.
 * Boolean field which specifies whether the node corresponds to the end of the key, or is just a key prefix.
 
 ![Representation of a key "leet" in trie](https://raw.githubusercontent.com/sujitr/tidbits/master/algorithms/src/main/resources/Trie_Node.png)

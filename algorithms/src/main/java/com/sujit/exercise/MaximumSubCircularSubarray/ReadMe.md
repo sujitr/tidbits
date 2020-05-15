@@ -99,4 +99,36 @@ Complexity Analysis
 * Space Complexity: O(N). 
 
 ### Approach #2 : Prefix Sums + Monoqueue
+##### Intuition
+
+First, we can frame the problem as a problem on a fixed array.
+
+We can consider any subarray of the circular array with buffer A, to be a subarray of the fixed array A+A.
+
+For example, if A = [0,1,2,3,4,5] represents a circular array, then the subarray [4,5,0,1] is also a subarray of fixed array [0,1,2,3,4,5,0,1,2,3,4,5]. Let B = A+A be this fixed array.
+
+Now say N=A.length, and consider the prefix sums
+<img src="https://latex.codecogs.com/gif.latex?P_k&space;=&space;B[0]&space;&plus;&space;B[1]&space;&plus;&space;\cdots&space;&plus;&space;B[k-1]" title="P_k = B[0] + B[1] + \cdots + B[k-1]" />
+Then, we want the largest <img src="https://latex.codecogs.com/gif.latex?P_j&space;-&space;P_i" title="P_j - P_i" /> 
+where <img src="https://latex.codecogs.com/gif.latex?j&space;-&space;i&space;\leq&space;N" title="j - i \leq N" />.
+
+Now, consider the j-th candidate answer: the best possible  <img src="https://latex.codecogs.com/gif.latex?P_j&space;-&space;P_i" title="P_j - P_i" /> for a fixed 'j'.
+We want the 'i' so that <img src="https://latex.codecogs.com/gif.latex?P_i" title="P_i" /> is smallest, with <img src="https://latex.codecogs.com/gif.latex?j&space;-&space;N&space;\leq&space;i&space;<&space;j" title="j - N \leq i < j" />.
+Let's call this the optimal i for the j-th candidate answer. We can use a monoqueue to manage this.
+
+##### Algorithm
+
+Iterate forwards through 'j', computing the j-th candidate answer at each step. We'll maintain a queue of potentially optimal i's.
+
+The main idea is that if <img src="https://latex.codecogs.com/gif.latex?i_1&space;<&space;i_2" title="i_1 < i_2" /> and
+<img src="https://latex.codecogs.com/gif.latex?P_{i_1}&space;\geq&space;P_{i_2}" title="P_{i_1} \geq P_{i_2}" /> , then we don't need to remember
+<img src="https://latex.codecogs.com/gif.latex?i_1" title="i_1" /> anymore
+
+### Approach #3: Kadane's (Sign Variant)
+
+### Approach #4: Kadane's (Min Variant)
+
+<hr>
+
+[Source Article](https://leetcode.com/articles/maximum-sub-circular-subarray/?page=3)
 
