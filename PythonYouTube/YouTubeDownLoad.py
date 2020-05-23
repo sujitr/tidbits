@@ -26,5 +26,5 @@ for line in lines:
         count = count+1
         print('Downloaded...')
     else:
-        print('Count not download - ', yt.title)
+        print('Could not download - ', yt.title)
 print('Total number of videos downloaded :',count)
