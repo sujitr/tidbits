@@ -93,7 +93,7 @@ Graph traversal (also known as graph search) refers to the process of
 visiting (checking and/or updating) each vertex in a graph. 
 Such traversals are classified by the order in which the vertices are visited. 
 We need to traverse a graph to perform any meaningful action, like search within 
-the graph.\n
+the graph.
 
 There are two classic ways to traverse graphs - 
 
@@ -124,7 +124,7 @@ Trie (we pronounce "try") or prefix tree is a tree data structure, which is used
 1. [Autocomplete](https://en.wikipedia.org/wiki/Autocomplete)
 2. [Spell Checker](https://en.wikipedia.org/wiki/Spell_checker)
 3. [IP routing (Longest prefix matching)](https://en.wikipedia.org/wiki/Longest_prefix_match)
-4. [T9 predictive text](https://en.wikipedia.org/wiki/T9_(predictive_text\))
+4. [T9 predictive text](https://en.wikipedia.org/wiki/T9_\(predictive_text\))
 5. [Solving word games](https://en.wikipedia.org/wiki/Boggle)
 
 There are several other data structures, like balanced trees and hash tables, which give us the possibility to search for a word in a dataset of strings. Then why do we need trie? Although hash table has O(1) time complexity for looking for a key, it is not efficient in the following operations :
