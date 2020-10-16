@@ -12,7 +12,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <junit.version>4.12</junit.version>
+    <junit.version>4.13.1</junit.version>
     <junit-vintage-engine>4.12.1</junit-vintage-engine>
     <junit.jupiter.version>5.1.0</junit.jupiter.version>
     <java.version>1.8</java.version>
